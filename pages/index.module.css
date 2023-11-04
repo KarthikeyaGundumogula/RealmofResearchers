@@ -1,3 +1,21 @@
+.of {
+  font-size: var(--font-size-5xl);
+}
+.realmOfResearchersContainer {
+  margin: 0;
+  position: absolute;
+  top: 0;
+  left: calc(50% - 298px);
+  font-weight: 900;
+  font-family: inherit;
+  text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+  font-size: inherit;
+}
+.registerButton {
+  position: absolute;
+  top: 9px;
+  right: 63px;
+}
 .publications {
   position: absolute;
   top: 0;
@@ -29,7 +47,6 @@
   height: 6px;
   opacity: 0;
 }
-.frameDiv,
 .publicationsContainer,
 .publicationsGroup {
   position: absolute;
@@ -38,61 +55,64 @@
   width: 147px;
   height: 35px;
 }
-.frameDiv,
 .publicationsContainer {
   left: 644px;
 }
+.publications3 {
+  position: absolute;
+  top: 0;
+  left: 16px;
+  font-weight: 600;
+}
+.frameDiv,
+.navBar {
+  position: absolute;
+  height: 35px;
+}
 .frameDiv {
+  top: 0;
   left: 995px;
+  width: 147px;
+  text-align: center;
 }
 .navBar {
   margin: 0;
-  position: relative;
+  top: 82px;
+  left: calc(50% - 571px);
   width: 1142px;
-  height: 35px;
   text-align: left;
   font-size: var(--font-size-5xl);
   color: var(--color-black);
   font-family: var(--font-inter);
 }
-.heading {
+.headerChild {
   position: absolute;
-  top: 93px;
-  left: calc(50% - 581px);
-  width: 1161px;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-}
-.of {
-  font-size: var(--font-size-5xl);
-}
-.realmOfResearchersContainer {
-  margin: 0;
-  position: absolute;
-  top: 16px;
-  left: calc(50% - 298px);
-  font-weight: 900;
-  font-family: inherit;
-  text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
-  font-size: inherit;
-}
-.desktop1Child {
-  position: absolute;
-  top: 137.5px;
-  left: -82px;
+  top: 141.5px;
+  left: -0.5px;
   border-top: 1px solid var(--color-black);
   box-sizing: border-box;
-  width: 1444px;
+  width: 1281px;
   height: 1px;
+}
+.header {
+  position: absolute;
+  top: 30px;
+  left: calc(50% - 640px);
+  width: 1280px;
+  height: 142px;
+  text-align: left;
+  font-size: var(--font-size-31xl);
+  color: var(--color-black);
+  font-family: var(--font-inter);
 }
 .discoverLatestAdvancements {
   margin: 0;
 }
 .discoverLatestAdvancementsContainer {
   margin: 0;
-  position: relative;
+  position: absolute;
+  top: 0;
+  left: 0;
   font-size: inherit;
   font-weight: 700;
   font-family: inherit;
@@ -102,84 +122,73 @@
 }
 .stepIntoTheContainer {
   margin: 0;
-  position: relative;
+  position: absolute;
+  top: 115px;
+  left: 0;
   font-size: var(--font-size-lg);
   display: inline-block;
   width: 989px;
 }
-.frame,
-.heroSection {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-}
-.heroSection {
-  justify-content: flex-start;
-  padding: 0 60px;
-  gap: 24px;
-}
-.frame {
+.theRenaissanceUnveiled {
+  margin: 0;
   position: absolute;
-  top: 160px;
-  left: -1px;
-  width: 1282px;
-  height: 579px;
-  overflow: hidden;
-  justify-content: center;
+  top: 362px;
+  left: 0;
+  font-size: inherit;
+  font-weight: 700;
+  font-family: inherit;
+}
+.inThisRealm {
+  margin: 0;
+  position: absolute;
+  top: 420px;
+  left: 0;
+  font-size: var(--font-size-lg);
+  display: inline-block;
+  width: 989px;
+}
+.mainSection {
+  position: absolute;
+  top: 199px;
+  left: 60px;
+  width: 1039px;
+  height: 552px;
   text-align: left;
   font-size: var(--font-size-17xl);
   color: var(--color-black);
   font-family: var(--font-inter);
 }
-.frame1,
 .whetherYoureA {
   margin: 0;
-  font-family: inherit;
-}
-.whetherYoureA {
-  position: relative;
+  position: absolute;
+  top: 0;
+  left: calc(50% - 422px);
   font-size: inherit;
   font-weight: 700;
+  font-family: inherit;
   display: inline-block;
   width: 844px;
 }
-.frame1 {
-  position: absolute;
-  bottom: 109px;
-  left: 208.5px;
-  width: 863px;
-  height: 178px;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-end;
-  text-align: center;
-  font-size: var(--font-size-17xl);
-}
-.desktop1Item {
-  position: absolute;
-  bottom: 10px;
-  left: calc(50% - 80px);
-}
-.registerButton {
-  position: absolute;
-  bottom: 52px;
-  left: 560px;
-}
 .registerButton1 {
   position: absolute;
-  top: 25px;
-  right: 0;
+  top: 203px;
+  left: 362px;
 }
-.desktop1 {
-  position: relative;
-  background-color: #e2ffe7;
-  width: 100%;
-  height: 1026px;
-  overflow: hidden;
-  text-align: left;
-  font-size: var(--font-size-31xl);
+.lastSection {
+  position: absolute;
+  top: 778px;
+  left: calc(50% - 422px);
+  width: 844px;
+  height: 245px;
+  text-align: center;
+  font-size: var(--font-size-17xl);
   color: var(--color-black);
   font-family: var(--font-inter);
+}
+.homeApgeNew {
+  position: relative;
+  background-color: #e2ffe6;
+  width: 100%;
+  height: 1066px;
+  overflow: hidden;
 }
