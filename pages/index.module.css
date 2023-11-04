@@ -1,0 +1,185 @@
+.publications {
+  position: absolute;
+  top: 0;
+  left: 1px;
+  font-weight: 600;
+}
+.instanceChild {
+  position: absolute;
+  top: 29px;
+  left: 0;
+  border-radius: var(--br-xs);
+  background-color: var(--color-black);
+  width: 69px;
+  height: 6px;
+}
+.instanceItem,
+.publicationsParent {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 89px;
+  height: 35px;
+}
+.instanceItem {
+  top: 29px;
+  border-radius: var(--br-xs);
+  background-color: var(--color-black);
+  width: 70px;
+  height: 6px;
+  opacity: 0;
+}
+.frameDiv,
+.publicationsContainer,
+.publicationsGroup {
+  position: absolute;
+  top: 0;
+  left: 293px;
+  width: 147px;
+  height: 35px;
+}
+.frameDiv,
+.publicationsContainer {
+  left: 644px;
+}
+.frameDiv {
+  left: 995px;
+}
+.navBar {
+  margin: 0;
+  position: relative;
+  width: 1142px;
+  height: 35px;
+  text-align: left;
+  font-size: var(--font-size-5xl);
+  color: var(--color-black);
+  font-family: var(--font-inter);
+}
+.heading {
+  position: absolute;
+  top: 93px;
+  left: calc(50% - 581px);
+  width: 1161px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+.of {
+  font-size: var(--font-size-5xl);
+}
+.realmOfResearchersContainer {
+  margin: 0;
+  position: absolute;
+  top: 16px;
+  left: calc(50% - 298px);
+  font-weight: 900;
+  font-family: inherit;
+  text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+  font-size: inherit;
+}
+.desktop1Child {
+  position: absolute;
+  top: 137.5px;
+  left: -82px;
+  border-top: 1px solid var(--color-black);
+  box-sizing: border-box;
+  width: 1444px;
+  height: 1px;
+}
+.discoverLatestAdvancements {
+  margin: 0;
+}
+.discoverLatestAdvancementsContainer {
+  margin: 0;
+  position: relative;
+  font-size: inherit;
+  font-weight: 700;
+  font-family: inherit;
+}
+.stepIntoThe {
+  display: block;
+}
+.stepIntoTheContainer {
+  margin: 0;
+  position: relative;
+  font-size: var(--font-size-lg);
+  display: inline-block;
+  width: 989px;
+}
+.frame,
+.heroSection {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.heroSection {
+  justify-content: flex-start;
+  padding: 0 60px;
+  gap: 24px;
+}
+.frame {
+  position: absolute;
+  top: 160px;
+  left: -1px;
+  width: 1282px;
+  height: 579px;
+  overflow: hidden;
+  justify-content: center;
+  text-align: left;
+  font-size: var(--font-size-17xl);
+  color: var(--color-black);
+  font-family: var(--font-inter);
+}
+.frame1,
+.whetherYoureA {
+  margin: 0;
+  font-family: inherit;
+}
+.whetherYoureA {
+  position: relative;
+  font-size: inherit;
+  font-weight: 700;
+  display: inline-block;
+  width: 844px;
+}
+.frame1 {
+  position: absolute;
+  bottom: 109px;
+  left: 208.5px;
+  width: 863px;
+  height: 178px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  text-align: center;
+  font-size: var(--font-size-17xl);
+}
+.desktop1Item {
+  position: absolute;
+  bottom: 10px;
+  left: calc(50% - 80px);
+}
+.registerButton {
+  position: absolute;
+  bottom: 52px;
+  left: 560px;
+}
+.registerButton1 {
+  position: absolute;
+  top: 25px;
+  right: 0;
+}
+.desktop1 {
+  position: relative;
+  background-color: #e2ffe7;
+  width: 100%;
+  height: 1026px;
+  overflow: hidden;
+  text-align: left;
+  font-size: var(--font-size-31xl);
+  color: var(--color-black);
+  font-family: var(--font-inter);
+}
