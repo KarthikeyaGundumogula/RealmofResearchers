@@ -1,0 +1,122 @@
+.paperCardChild {
+  position: absolute;
+  top: 0;
+  left: calc(50% - 627px);
+  border-radius: 11px;
+  background-color: #c1dcac;
+  width: 1254px;
+  height: 113px;
+}
+.paperCardItem,
+.theArc {
+  position: absolute;
+  top: 16px;
+}
+.paperCardItem {
+  left: 21px;
+  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+}
+.theArc {
+  left: 122px;
+  font-size: 26px;
+  text-align: center;
+}
+.thisIsThe {
+  position: absolute;
+  top: 56px;
+  left: 126px;
+  font-size: var(--font-size-base);
+  display: inline-block;
+  width: 536px;
+}
+.researcherBadgeChild {
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: var(--br-xs);
+  width: 160px;
+  height: 36px;
+}
+.tonyStark {
+  position: absolute;
+  top: 6px;
+  left: 41px;
+  font-weight: 600;
+}
+.businessmanIcon {
+  position: absolute;
+  top: 2px;
+  left: 5px;
+  border-radius: 7px;
+  width: 30px;
+  height: 30px;
+  object-fit: cover;
+}
+.dateBadgeChild,
+.researcherBadge {
+  position: absolute;
+  top: 58px;
+  left: 694px;
+  width: 160px;
+  height: 36px;
+}
+.dateBadgeChild {
+  top: 0;
+  left: 0;
+  border-radius: var(--br-xs);
+}
+.googleCalendarIcon {
+  position: absolute;
+  top: 2px;
+  left: 9px;
+  width: 30px;
+  height: 30px;
+  object-fit: cover;
+}
+.dateBadge {
+  position: absolute;
+  top: 58px;
+  left: 876px;
+  width: 160px;
+  height: 36px;
+}
+.neuroscienceExperimentIcon {
+  position: absolute;
+  top: 2px;
+  left: 8px;
+  width: 30px;
+  height: 30px;
+  object-fit: cover;
+}
+.fieldBadge {
+  position: absolute;
+  top: 58px;
+  left: 1058px;
+  width: 160px;
+  height: 36px;
+}
+.paperCard {
+  position: relative;
+  margin-bottom: 2%;
+  left: calc(50% - 627px);
+  width: 1254px;
+  height: 113px;
+  text-align: left;
+  font-size: var(--font-size-xl);
+  color: var(--color-black);
+  font-family: var(--font-inter);
+}
+.publicationsPage {
+  position: relative;
+  background-color: #e2ffe6;
+  width: 100%;
+  height: 1053px;
+  overflow: hidden;
+}
+.paperDiv {
+  position: relative;
+  top: 19%;
+}

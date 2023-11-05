@@ -1,0 +1,148 @@
+.researcherCardChild {
+  position: absolute;
+  top: 0;
+  left: calc(50% - 499px);
+  border-radius: 11px;
+  background-color: #c1dcac;
+  width: 998px;
+  height: 125px;
+}
+.researcherCardItem {
+  position: absolute;
+  top: 16px;
+  left: 24px;
+  border-radius: var(--br-xs);
+  width: 88px;
+  height: 89px;
+  object-fit: cover;
+}
+.tonyStark {
+  margin: 0;
+  position: absolute;
+  top: 0px;
+  left: 172px;
+  font-weight: 600;
+  font-family: inherit;
+  width: auto;
+  text-align: center;
+  font-size: 36px;
+}
+.imAPlayBoy {
+  margin: 0;
+  top: 52px;
+  left: 131px;
+  text-align: center;
+  display: inline-block;
+  width: 337px;
+}
+.h2,
+.imAPlayBoy,
+.prizeIcon {
+  position: absolute;
+}
+.h2 {
+  margin: 0;
+  top: 59px;
+  left: 11px;
+  font-size: 36px;
+  font-weight: 600;
+  font-family: inherit;
+}
+.prizeIcon {
+  top: 0;
+  left: 0;
+  width: 67px;
+  height: 65px;
+  object-fit: cover;
+}
+.reputationIndex {
+  position: absolute;
+  top: 15px;
+  left: 632px;
+  width: 113px;
+  height: 128px;
+  text-align: center;
+}
+.h21 {
+  margin: 0;
+  position: absolute;
+  top: 59px;
+  left: 10px;
+  font-size: 36px;
+  font-weight: 600;
+  font-family: inherit;
+}
+.citations {
+  top: 15px;
+  left: 748px;
+  width: 113px;
+  height: 128px;
+  text-align: center;
+}
+.citations,
+.h22,
+.ofpapers {
+  position: absolute;
+}
+.h22 {
+  margin: 0;
+  top: 59px;
+  left: 10px;
+  font-size: 36px;
+  font-weight: 600;
+  font-family: inherit;
+}
+.ofpapers {
+  top: 15px;
+  left: 516px;
+  width: 113px;
+  height: 128px;
+  text-align: center;
+  font-size: var(--font-size-5xl);
+}
+.neuroScience {
+  margin: 0;
+  position: absolute;
+  top: 59px;
+  left: 0;
+  font-size: 24;
+  font-weight: 600;
+  font-family: inherit;
+  display: inline-block;
+  width: 113px;
+}
+.searchBarIcon {
+  position: absolute;
+  top: 0;
+  left: 23px;
+  width: 67px;
+  height: 67px;
+  object-fit: cover;
+}
+.feild {
+  position: absolute;
+  top: 15px;
+  left: 848px;
+  width: 113px;
+  height: 128px;
+  text-align: center;
+}
+.researcherCard {
+  position: relative;
+  top: 194px;
+  left: calc(50% - 499px);
+  width: 998px;
+  height: 128px;
+  margin-bottom: 10px;
+}
+.researchersPage {
+  position: relative;
+  background-color: #e2ffe6;
+  width: 100%;
+  height: 1053px;
+  overflow: hidden;
+  text-align: left;
+  font-size: var(--font-size-25xl);
+  color: var(--color-black);
+  font-family: var(--font-inter);
+}
