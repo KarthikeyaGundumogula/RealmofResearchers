@@ -18,19 +18,35 @@ function ResearcherCard() {
         </p>
         <div className={styles.reputationIndex}>
           <h2 className={styles.h2}>19</h2>
-          <img className={styles.prizeIcon} alt="" src="/repustation.png" />
+          <img
+            className={styles.prizeIcon}
+            alt=""
+            src="/researchers/repustation.png"
+          />
         </div>
         <div className={styles.citations}>
           <h2 className={styles.h21}>19</h2>
-          <img className={styles.prizeIcon} alt="" src="/citation.png" />
+          <img
+            className={styles.prizeIcon}
+            alt=""
+            src="/researchers/citation.png"
+          />
         </div>
         <div className={styles.ofpapers}>
           <h2 className={styles.h22}>19</h2>
-          <img className={styles.prizeIcon} alt="" src="/research-paper.png" />
+          <img
+            className={styles.prizeIcon}
+            alt=""
+            src="/researchers/research-paper.png"
+          />
         </div>
         <div className={styles.feild}>
           <h4 className={styles.neuroScience}>Neuro-science</h4>
-          <img className={styles.searchBarIcon} alt="" src="/feildofwork.png" />
+          <img
+            className={styles.searchBarIcon}
+            alt=""
+            src="/researchers/feildofwork.png"
+          />
         </div>
       </section>
     </div>

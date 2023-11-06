@@ -6,7 +6,11 @@ function PaperCard() {
     <div>
       <section className={styles.paperCard} id="paper-card">
         <div className={styles.paperCardChild} />
-        <img className={styles.paperCardItem} alt="" src="/eclipse.png" />
+        <img
+          className={styles.paperCardItem}
+          alt=""
+          src="/publications/eclipse.png"
+        />
         <b
           className={styles.theArc}
         >{`The ARC : A Miniature Fusion Reactor That Can Power an Sheild for Humans.  `}</b>
@@ -20,13 +24,17 @@ function PaperCard() {
           <img
             className={styles.businessmanIcon}
             alt=""
-            src="/researcher.png"
+            src="/publications/researcher.png"
           />
         </div>
         <div className={styles.dateBadge}>
           <div className={styles.dateBadgeChild} />
           <div className={styles.tonyStark}>26-10-2023</div>
-          <img className={styles.googleCalendarIcon} alt="" src="/date.png" />
+          <img
+            className={styles.googleCalendarIcon}
+            alt=""
+            src="/publications/date.png"
+          />
         </div>
         <div className={styles.fieldBadge}>
           <div className={styles.dateBadgeChild} />
@@ -34,7 +42,7 @@ function PaperCard() {
           <img
             className={styles.neuroscienceExperimentIcon}
             alt=""
-            src="/feild.png"
+            src="/publications/feild.png"
           />
         </div>
       </section>

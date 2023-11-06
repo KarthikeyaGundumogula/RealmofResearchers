@@ -100,7 +100,7 @@
 }
 .paperCard {
   position: relative;
-  margin-bottom: 2%;
+  margin-bottom: 0.5%;
   left: calc(50% - 627px);
   width: 1254px;
   height: 113px;
