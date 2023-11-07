@@ -1,0 +1,270 @@
+.connectBtn,
+.homeBtn {
+  position: absolute;
+  top: 60px;
+}
+.homeBtn {
+  left: 0;
+}
+.connectBtn {
+  right: 0;
+  left: 85%;
+}
+.homeBtnParent {
+  position: absolute;
+  top: 60px;
+  left: 0;
+  width: 1279px;
+  height: 47px;
+}
+.tonyStark {
+  margin: 0;
+  position: absolute;
+  top: 175.2px;
+  left: calc(50% - 94px);
+  font-size: inherit;
+  font-weight: 700;
+  font-family: inherit;
+  display: inline-block;
+  width: 189px;
+  height: 47.3px;
+}
+.rrTokenBalance12345885 {
+  position: absolute;
+  top: 320px;
+  font-size: 32px;
+  left: calc(50% - 236.5px);
+}
+
+.profileIntroChild {
+  position: absolute;
+  top: 0;
+  left: calc(50% - 75px);
+  border-radius: 50%;
+  width: 151px;
+  height: 162.2px;
+  object-fit: cover;
+}
+
+.imAPlayBoy,
+.x9392540366 {
+  position: absolute;
+  display: inline-block;
+}
+.imAPlayBoy {
+  margin: 0;
+  top: 268.9px;
+  left: calc(50% - 266px);
+  font-size: 16px;
+  font-weight: 300;
+  text-align: center;
+  width: 532px;
+  height: 51.6px;
+}
+.x9392540366 {
+  top: 235.4px;
+  left: 205px;
+  font-size: var(--font-size-base);
+  font-weight: 200;
+  width: auto;
+  height: 20.4px;
+}
+.profileIntro {
+  position: absolute;
+  top: 95px;
+  left: calc(50% - 266px);
+  width: 532px;
+  height: 320.4px;
+  text-align: left;
+  font-size: 36px;
+  color: var(--color-black);
+  font-family: var(--font-inter);
+}
+.sciTokenHoldings {
+  margin: 0;
+  position: absolute;
+  top: 0;
+  left: calc(50% - 620px);
+  font-weight: 600;
+  font-size: 28px;
+  color: var(--color-black);
+  font-family: var(--font-inter);
+}
+.project {
+  position: absolute;
+  top: 26px;
+  left: calc(50% - 470.5px);
+  font-weight: 600;
+}
+.acquiredTokenAmount,
+.buyingPrice,
+.currentHoldings {
+  position: absolute;
+  top: 7px;
+  left: calc(50% - 309.5px);
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 158px;
+}
+.buyingPrice,
+.currentHoldings {
+  top: 4px;
+  left: calc(50% - 113.5px);
+  width: 101px;
+}
+.buyingPrice {
+  left: calc(50% + 23.5px);
+  width: 112px;
+}
+.span {
+  font-size: var(--font-size-xs);
+}
+.offeredFractionContainer1 {
+  line-break: anywhere;
+  width: 100%;
+}
+.gain,
+.lastSoldPrice,
+.offeredFractionContainer {
+  position: absolute;
+  top: 0;
+  left: calc(50% + 171.5px);
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  width: 85px;
+}
+.gain,
+.lastSoldPrice {
+  top: 7px;
+  left: calc(50% + 292.5px);
+  justify-content: center;
+  width: 89px;
+}
+.gain {
+  top: 19px;
+  left: calc(50% + 417.5px);
+  width: 53px;
+}
+.tokenTableChild,
+.tokenTableHead {
+  position: relative;
+  top: 0;
+  left: calc(50% - 533.5px);
+  width: 941px;
+  height: auto;
+}
+.tokenTableChild {
+  position: relative;
+  top: 66.5px;
+  left: -0.5px;
+  border-top: 1px solid var(--color-black);
+  box-sizing: border-box;
+  width: 1241px;
+  height: 1px;
+}
+.sellBtn {
+  position: absolute;
+  top: 0px;
+  left: 47.7%;
+}
+.b,
+.b1,
+.b2,
+.b3,
+.b4,
+.b5,
+.theArcReactorA {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.theArcReactorA {
+  top: 0;
+  left: calc(50% - 565px);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--color-gray);
+  width: 208px;
+}
+.b,
+.b1,
+.b2,
+.b3,
+.b4,
+.b5 {
+  top: 7px;
+}
+.b {
+  left: calc(50% - 276px);
+  color: var(--color-gray);
+  width: 40.9px;
+}
+.b1,
+.b2,
+.b3,
+.b4,
+.b5 {
+  left: calc(50% - 131px);
+  width: 101.2px;
+}
+.b2,
+.b3,
+.b4,
+.b5 {
+  left: calc(50% + 39px);
+  width: 30.7px;
+}
+.b3,
+.b4,
+.b5 {
+  left: calc(50% + 399px);
+  width: 39.9px;
+}
+.b4,
+.b5 {
+  left: calc(50% + 292px);
+}
+.b5 {
+  left: calc(50% + 178px);
+  width: 22.5px;
+}
+.tokenTableRow {
+  position: relative;
+  top: 94px;
+  left: 0.8%;
+  right: 80px;
+  width: 1130px;
+  height: auto;
+  margin-bottom: 4%;
+  font-size: var(--font-size-base);
+}
+.tokenTable {
+  position: relative;
+  top: 68px;
+  left: calc(50% - 595px);
+  width: 1215px;
+  height: auto;
+  text-align: center;
+  font-size: var(--font-size-xl);
+}
+.profile,
+.sciTokensSection {
+  text-align: left;
+  color: var(--color-black);
+  font-family: var(--font-inter);
+}
+.sciTokensSection {
+  position: absolute;
+  top: 478px;
+  left: calc(50% - 620px);
+  width: 1240px;
+  height: auto;
+}
+.profile {
+  background-color: #e2ffe6;
+  width: 100%;
+}

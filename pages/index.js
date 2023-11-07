@@ -1,5 +1,5 @@
 import styles from "./styles/index.module.css";
-import Home from "./components/home";
+import Home from "./components/about";
 import Header from "./components/Header";
 
 const HomeApgeNew = () => {

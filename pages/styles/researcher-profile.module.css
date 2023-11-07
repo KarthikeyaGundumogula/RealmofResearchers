@@ -394,6 +394,8 @@
   width: 1115px;
   height: 70px;
   font-size: var(--font-size-base);
+  border-bottom: 3px;
+  border-color: black;
 }
 .tokenTable {
   top: 50px;
