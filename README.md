@@ -1,2 +1,2 @@
 # RealmofResearchers
-Hackathon Project.
+Research paper publishing Project.
