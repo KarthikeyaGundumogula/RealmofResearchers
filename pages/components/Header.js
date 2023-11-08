@@ -15,15 +15,17 @@ const Header = (pageName) => {
           <span className={styles.of}>{`of `}</span>
           <span>RESEARCHERS</span>
         </h1>
-        <Button
-          className={styles.registerButton}
-          variant="solid"
-          w="161px"
-          colorScheme="green"
-        >
-          {" "}
-          Register Now!
-        </Button>
+        <Link as={NextLink} href="/profile/tony">
+          <Button
+            className={styles.registerButton}
+            variant="solid"
+            w="161px"
+            colorScheme="green"
+          >
+            {" "}
+            Profile
+          </Button>
+        </Link>
         <nav className={styles.navBar}>
           <div className={styles.publicationsParent}>
             <Link as={NextLink} href="/">

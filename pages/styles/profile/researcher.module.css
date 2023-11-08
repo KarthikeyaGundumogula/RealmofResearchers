@@ -1,0 +1,415 @@
+.connectBtn,
+.homeBtn {
+  position: absolute;
+  top: 0;
+}
+.homeBtn {
+  left: 0;
+}
+.connectBtn {
+  right: 0;
+  left: 88%;
+}
+.btnSection {
+  position: relative;
+  width: 1279px;
+  height: 47px;
+}
+.rrTokenBalance12345885,
+.tonyStark {
+  position: absolute;
+  display: inline-block;
+}
+.tonyStark {
+  margin: 0;
+  top: 175.2px;
+  left: calc(50% - 230.1px);
+  font-size: inherit;
+  font-weight: 700;
+  font-family: inherit;
+  width: 475.2px;
+  height: 47.3px;
+}
+.rrTokenBalance12345885 {
+  top: 269px;
+  left: calc(50% - 655px);
+  width: 1310px;
+}
+.profileIntroChild {
+  position: absolute;
+  top: 0;
+  left: calc(50% - 79px);
+  border-radius: 50%;
+  background-color: var(--color-gainsboro);
+  width: 157px;
+  height: 162px;
+}
+.x9392540366 {
+  position: absolute;
+  top: 235.4px;
+  left: calc(50% - 147.1px);
+  font-size: var(--font-size-base);
+  font-weight: 200;
+  display: inline-block;
+  width: 294.2px;
+  height: 20.4px;
+}
+.profileIntro {
+  position: relative;
+  width: 1310px;
+  height: 313px;
+  text-align: center;
+  font-size: var(--font-size-17xl);
+  color: var(--color-black);
+  font-family: var(--font-inter);
+}
+.publishedPapers {
+  margin: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-size: inherit;
+  font-weight: 700;
+  font-family: inherit;
+  display: inline-block;
+  width: 286.1px;
+}
+.nameChild,
+.paperDivChild {
+  position: absolute;
+  height: 100%;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  border-radius: var(--br-sm);
+  max-height: 100%;
+  width: 252.5px;
+}
+.paperDivChild {
+  object-fit: cover;
+}
+.nameChild {
+  opacity: 0.5;
+}
+.theArcReactorA {
+  position: absolute;
+  top: 17.31%;
+  left: 12.2px;
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 228.1px;
+}
+.name,
+.paperDiv,
+.paperDiv1,
+.papersStack {
+  position: absolute;
+  height: 43.51%;
+  top: 56.49%;
+  bottom: 0;
+  left: 0;
+  width: 252.5px;
+}
+.paperDiv,
+.paperDiv1,
+.papersStack {
+  height: 100%;
+  top: 0;
+}
+.paperDiv1,
+.papersStack {
+  left: 304.5px;
+}
+.papersStack {
+  height: 80.74%;
+  top: 19.26%;
+  left: 0;
+  width: 557px;
+  text-align: center;
+  font-size: var(--font-size-base);
+  color: var(--color-gray);
+}
+.publishedPapersSection {
+  position: relative;
+  width: 557px;
+  height: 296px;
+}
+.launchedTokens {
+  margin: 0;
+  position: absolute;
+  top: 0;
+  left: 7px;
+  font-size: inherit;
+  font-weight: 700;
+  font-family: inherit;
+}
+.project {
+  position: absolute;
+  top: 17px;
+  left: 0;
+  font-weight: 600;
+}
+.description,
+.launchingDate,
+.launchingPrice {
+  position: absolute;
+  top: 17px;
+  left: 213px;
+  font-weight: 600;
+}
+.launchingDate,
+.launchingPrice {
+  top: 0;
+  left: 435px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 101px;
+}
+.launchingPrice {
+  left: 572px;
+  width: 112px;
+}
+.span {
+  font-size: var(--font-size-xs);
+}
+.offeredFractionContainer1 {
+  line-break: anywhere;
+  width: 100%;
+}
+.launchingAmount,
+.offeredFractionContainer,
+.subscriptionFee {
+  position: absolute;
+  top: 0;
+  left: 1016px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  width: 85px;
+}
+.launchingAmount,
+.subscriptionFee {
+  left: 715px;
+  justify-content: center;
+  width: 113px;
+}
+.subscriptionFee {
+  left: 859px;
+  width: 126px;
+}
+.tokenTableChild,
+.tokenTableHead {
+  position: absolute;
+  top: 0;
+  left: 70px;
+  width: 1101px;
+  height: 62px;
+}
+.tokenTableChild {
+  position: relative;
+  top: 70.5px;
+  left: -0.5px;
+  border-top: 1px solid var(--color-black);
+  box-sizing: border-box;
+  width: 1241px;
+  height: 1px;
+}
+.theArcReactorA2,
+.theArcReactorA3 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--color-gray);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 160px;
+}
+.theArcReactorA3 {
+  top: 3px;
+  left: 206px;
+  font-size: var(--font-size-xs);
+  font-weight: 500;
+  width: 228px;
+}
+.b,
+.b1,
+.b2,
+.b3,
+.b4 {
+  position: absolute;
+  top: 18px;
+  left: 487px;
+}
+.b1,
+.b2,
+.b3,
+.b4 {
+  top: 15px;
+  left: 653px;
+}
+.b2,
+.b3,
+.b4 {
+  left: 786px;
+}
+.b3,
+.b4 {
+  left: 947px;
+}
+.b4 {
+  left: 1093px;
+}
+.tokenTable,
+.tokenTableRow {
+  position: absolute;
+  top: 93px;
+  left: 25px;
+  width: 1115px;
+  height: 51px;
+  font-size: var(--font-size-base);
+}
+.tokenTable {
+  top: 50px;
+  left: 0;
+  width: 1190px;
+  height: 144px;
+  text-align: center;
+  font-size: var(--font-size-xl);
+}
+.tokensSection {
+  position: relative;
+  width: 1190px;
+  height: 194px;
+  text-align: left;
+  font-size: var(--font-size-13xl);
+  color: var(--color-black);
+  font-family: var(--font-inter);
+}
+.sciTokenHoldings {
+  margin: 0;
+  position: absolute;
+  top: 0;
+  left: calc(50% - 595px);
+  font-size: inherit;
+  font-weight: 700;
+  font-family: inherit;
+}
+.acquiredTokenAmount,
+.project1 {
+  position: absolute;
+  top: 26px;
+  left: calc(50% - 470.5px);
+  font-weight: 600;
+}
+.acquiredTokenAmount {
+  top: 7px;
+  left: calc(50% - 309.5px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 158px;
+}
+.currentHoldings {
+  top: 4px;
+  left: calc(50% - 113.5px);
+  justify-content: center;
+  width: 101px;
+}
+.buyingPrice,
+.currentHoldings,
+.gain,
+.lastSoldPrice,
+.offeredFractionContainer2 {
+  position: absolute;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+}
+.buyingPrice {
+  top: 4px;
+  left: calc(50% + 23.5px);
+  justify-content: center;
+  width: 112px;
+}
+.gain,
+.lastSoldPrice,
+.offeredFractionContainer2 {
+  top: 0;
+  left: calc(50% + 171.5px);
+  width: 85px;
+}
+.gain,
+.lastSoldPrice {
+  top: 7px;
+  left: calc(50% + 292.5px);
+  justify-content: center;
+  width: 89px;
+}
+.gain {
+  top: 19px;
+  left: calc(50% + 417.5px);
+  width: 53px;
+}
+.tokenTableHead1,
+.tokenTableItem {
+  position: absolute;
+  top: 0;
+  left: calc(50% - 496px);
+  width: 941px;
+  height: 62px;
+}
+.tokenTableItem {
+  top: 70.5px;
+  left: calc(50% - 600px);
+  width: 1190px;
+  height: 1px;
+}
+.tokenTableRow1 {
+  position: absolute;
+  top: 94px;
+  right: 0;
+  width: 1165px;
+  height: 34px;
+  font-size: var(--font-size-base);
+}
+.tokenTable1 {
+  position: absolute;
+  top: 20px;
+  margin-top: 2%;
+  left: calc(50% - 600px);
+  width: 1200px;
+  height: 128px;
+  text-align: center;
+  font-size: var(--font-size-xl);
+}
+.researcherProfileV2,
+.sciTokensSection {
+  text-align: left;
+  font-size: var(--font-size-13xl);
+  color: var(--color-black);
+  font-family: var(--font-inter);
+}
+.sciTokensSection {
+  position: relative;
+  top: 100px;
+  margin-top: auto;
+  width: 1200px;
+  height: 400px;
+}
+.researcherProfileV2 {
+  background-color: var(--color-honeydew);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: var(--padding-19xl) var(--padding-19xl) 4% 4%;
+  gap: 32px;
+  height: auto;
+}

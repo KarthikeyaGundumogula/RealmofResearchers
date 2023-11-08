@@ -1,9 +1,11 @@
 import React from "react";
 import styles from "../styles/researchers.module.css";
+import NextLink from "next/link";
+import { Link } from "@chakra-ui/react";
 
 function ResearcherCard() {
   return (
-    <div>
+    <Link as={NextLink} href={`/researchers/${"tony"}`}>
       <section className={styles.researcherCard} id="researcher-card">
         <div className={styles.researcherCardChild} />
         <img
@@ -49,7 +51,7 @@ function ResearcherCard() {
           />
         </div>
       </section>
-    </div>
+    </Link>
   );
 }
 

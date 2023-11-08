@@ -1,9 +1,9 @@
 import { Button, IconButton } from "@chakra-ui/react";
 import NextLink from "next/link";
 import { Link } from "@chakra-ui/react";
-import styles from "../styles/profile/non-researcher.module.css";
-import TokenHoldingRow from "../components/User-Profile/Token-Hoding-Row";
-const Profile = () => {
+import styles from "../../styles/profile/non-researcher.module.css";
+import TokenHoldingRow from "./Token-Hoding-Row";
+const NonResearcherProfile = () => {
   return (
     <div className={styles.profile}>
       <Button
@@ -68,4 +68,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default NonResearcherProfile;

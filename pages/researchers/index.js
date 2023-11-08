@@ -8,9 +8,6 @@ const ResearchersPage = () => {
   return (
     <div className={styles.researchersPage}>
       <Header pageName={"researchers"} />
-      <Link as={NextLink} href={`/researchers/${"tony"}`}>
-        <ResearcherCard />
-      </Link>
       <ResearcherCard />
       <ResearcherCard />
     </div>

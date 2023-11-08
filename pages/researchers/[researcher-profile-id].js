@@ -2,8 +2,8 @@ import { Button, IconButton } from "@chakra-ui/react";
 import styles from "../styles/researcher-profile.module.css";
 import NextLink from "next/link";
 import { Link } from "@chakra-ui/react";
-import ResearchPaperCard from "../components/Researcher-Profile/Research-Paper-Card";
-import TokenTableRow from "../components/Researcher-Profile/Token-Table-Row";
+import ResearchPaperCard from "../components/Researcher-Page/Research-Paper-Card";
+import TokenTableRow from "../components/Researcher-Page/Token-Table-Row";
 const ResearcherProfile = () => {
   return (
     <div className={styles.researcherProfile}>
