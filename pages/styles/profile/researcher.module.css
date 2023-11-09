@@ -269,7 +269,7 @@
 .tokenTableRow {
   position: absolute;
   top: 93px;
-  left: 25px;
+  left: 0px;
   width: 1115px;
   height: 51px;
   font-size: var(--font-size-base);

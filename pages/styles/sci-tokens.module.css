@@ -1,0 +1,231 @@
+.launchedTokens {
+  margin: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-size: inherit;
+  font-weight: 700;
+  font-family: inherit;
+}
+.creator,
+.project {
+  position: absolute;
+  top: 5px;
+  left: 0;
+  font-weight: 600;
+}
+.creator {
+  left: 169px;
+}
+.launchingAmount,
+.launchingDate,
+.launchingPrice {
+  position: absolute;
+  top: 0;
+  left: 296px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 101px;
+}
+.launchingAmount,
+.launchingPrice {
+  left: 418px;
+  width: 112px;
+}
+.launchingAmount {
+  left: 551px;
+  width: 113px;
+}
+.payPerPaper,
+.seller,
+.sellingPrice {
+  position: absolute;
+  top: 12px;
+  left: 717px;
+  font-weight: 600;
+}
+.payPerPaper,
+.sellingPrice {
+  top: 5px;
+  left: 826px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 69px;
+}
+.payPerPaper {
+  top: 0;
+  left: 925px;
+  width: 86px;
+}
+.projectParent,
+.tableChild {
+  position: absolute;
+  top: 0;
+  left: 62px;
+  width: 1011px;
+  height: 53px;
+}
+.tableChild {
+  top: 63px;
+  left: 0;
+  width: 1190px;
+  height: 3px;
+}
+.theArcReactorA,
+.theArcReactorA:hover {
+  font-weight: 600;
+  font-size: var(--font-size-sm);
+  color: var(--color-gray);
+  display: flex;
+  width: 160px;
+}
+.theArcReactorA {
+  position: absolute;
+  top: 0;
+  left: 17px;
+  align-items: center;
+  justify-content: center;
+}
+.theArcReactorA:hover {
+  font-family: var(--font-inter);
+  text-align: center;
+}
+.b,
+.x57835893 {
+  top: 16px;
+  display: flex;
+  font-weight: 700;
+}
+.x57835893 {
+  position: absolute;
+  left: 212px;
+}
+.b1:hover,
+.b2:hover,
+.b3:hover,
+.b4:hover,
+.b:hover,
+.x57835893:hover,
+.x93429454:hover {
+  font-weight: 700;
+  font-family: var(--font-inter);
+  font-size: var(--font-size-base);
+  text-align: center;
+  color: var(--color-black);
+  display: flex;
+}
+.b {
+  left: 360px;
+}
+.b,
+.b1,
+.b2 {
+  position: absolute;
+}
+.b1 {
+  top: 16px;
+  left: 516px;
+  display: flex;
+  font-weight: 700;
+}
+.b2 {
+  left: 631px;
+}
+.b2,
+.b3,
+.x93429454 {
+  top: 16px;
+  display: flex;
+  font-weight: 700;
+}
+.x93429454 {
+  position: absolute;
+  left: 756px;
+}
+.b3 {
+  left: 912px;
+}
+.b3,
+.b4,
+.buyBtn {
+  position: absolute;
+}
+.b4 {
+  top: 16px;
+  left: 1015px;
+  display: flex;
+  font-weight: 700;
+}
+.buyBtn {
+  top: 10px;
+  left: 45%;
+}
+.tokenSaleRowChild {
+  position: absolute;
+  top: 66.5px;
+  left: -0.5px;
+  border-top: 1px solid var(--color-black);
+  box-sizing: border-box;
+  width: 1191px;
+  height: 1px;
+}
+.tokenSaleHeadChild {
+  position: absolute;
+  top: 66.5px;
+  left: -30.5px;
+  border-top: 1px solid var(--color-black);
+  box-sizing: border-box;
+  width: 1251px;
+  height: 2px;
+  background-color: black;
+}
+.main,
+.table {
+  position: absolute;
+  top: 81px;
+  left: 0;
+  width: 1190px;
+  height: 67px;
+  font-size: var(--font-size-base);
+}
+.tokenSaleRow {
+  position: relative;
+  top: 81px;
+  left: 0;
+  width: 1190px;
+  height: 67px;
+  font-size: var(--font-size-base);
+  margin-top: 0.5%;
+  margin-bottom: 0.5%;
+}
+.main,
+.table {
+  top: 62px;
+  left: 1px;
+  height: 148px;
+  text-align: center;
+  font-size: var(--font-size-xl);
+}
+.table {
+  left: 4%;
+}
+.main {
+  top: 206px;
+  left: 44px;
+  width: 1191px;
+  height: 210px;
+  text-align: left;
+  font-size: var(--font-size-13xl);
+  color: var(--color-black);
+  font-family: var(--font-inter);
+}
+.sciTokensPage {
+  position: relative;
+  background-color: var(--color-honeydew);
+  width: 100%;
+  height: auto;
+  left: 3%;
+}

@@ -9,7 +9,7 @@
   font-weight: 900;
   font-family: inherit;
   text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
-  font-size: inherit;
+  font-size: var(--font-size-25xl);
 }
 .registerButton {
   position: absolute;
@@ -62,7 +62,7 @@
 .publications3 {
   position: absolute;
   top: 0;
-  left: 16px;
+  left: 0px;
   font-weight: 600;
 }
 .frameDiv,
@@ -126,7 +126,7 @@
   position: absolute;
   top: 115px;
   left: 0;
-  font-size: var(--font-size-lg);
+  font-size: 16px;
   display: inline-block;
   width: 989px;
 }
@@ -144,7 +144,7 @@
   position: absolute;
   top: 450px;
   left: 0;
-  font-size: var(--font-size-lg);
+  font-size: 16px;
   display: inline-block;
   width: 989px;
 }

@@ -3,19 +3,23 @@ import styles from "../../styles/profile/researcher.module.css";
 import ResearchPaperCard from "../Researcher-Page/Research-Paper-Card";
 import TokenTableRow from "../Researcher-Page/Token-Table-Row";
 import TokenHoldingRow from "./Token-Hoding-Row";
+import NextLink from "next/link";
+import { Link } from "@chakra-ui/react";
 
 const ResearcherProfileV2 = () => {
   return (
     <div className={styles.researcherProfileV2}>
       <header className={styles.btnSection}>
-        <Button
-          className={styles.homeBtn}
-          variant="solid"
-          w="138px"
-          colorScheme="green"
-        >
-          Home
-        </Button>
+        <Link as={NextLink} href="/">
+          <Button
+            className={styles.homeBtn}
+            variant="solid"
+            w="138px"
+            colorScheme="green"
+          >
+            Home
+          </Button>
+        </Link>
         <Button
           className={styles.connectBtn}
           variant="solid"
