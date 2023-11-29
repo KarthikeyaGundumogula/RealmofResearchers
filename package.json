@@ -3,18 +3,19 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@0xpolygonid/js-sdk": "^1.4.1",
+    "@chakra-ui/icons": "^2.0.8",
+    "@chakra-ui/react": "^2.2.6",
+    "@emotion/cache": "^11.11.0",
+    "@emotion/react": "^11.11.0",
+    "@emotion/styled": "^11.11.0",
+    "framer-motion": "^7.1.0",
+    "hardhat": "^2.19.1",
     "next": "^13.2.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.2.1",
-    "@chakra-ui/react": "^2.2.6",
-    "framer-motion": "^7.1.0",
-    "@emotion/react": "^11.11.0",
-    "@emotion/styled": "^11.11.0",
-    "@emotion/cache": "^11.11.0",
-    "@chakra-ui/icons": "^2.0.8"
+    "react-router-dom": "^6.2.1"
   },
-  "devDependencies": {},
   "scripts": {
     "dev": "next dev",
     "build": "next build && next export -o build/",
