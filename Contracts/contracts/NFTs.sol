@@ -19,29 +19,33 @@ contract SocialTokens is ERC1155URIStorage, ERC1155Holder {
         uint totalAmount;
         uint availbleAmount;
         uint thresholdAmount;
+        uint ownershipOnEntireTokenBatch;
     }
-
-    struct supporter {
+    struct Supporter {
         address supporter;
         mapping(uint => uint) tokenAmount;
         mapping(uint => uint) rewardClaimed;
     }
-
     struct Creator {
         uint tokenID;
         address creator;
         string _URI;
     }
-
-    struct tokenTressury {
+    struct ResearchPaper {
         uint tokenId;
-        uint availbleAmount;
+        uint socialTokenId;
+        address researcher;
+        string URI;
+        uint subscriptionFee;
         uint totalAmount;
+        uint unClaimedAmount;
     }
 
     mapping(uint => Creator) public creators;
     mapping(uint => SocialToken) public socialTokens;
-    mapping(address => supporter) public supporters;
+    mapping(address => Supporter) public supporters;
+    mapping(uint => ResearchPaper) public researchPapers;
+    mapping(address => mapping(uint => bool)) public isSubscribed;
 
     event CratorRigistered(uint id, address creator, string URI);
     event SocialTokenMinted(uint id, address owner, uint amount, string URI);
@@ -49,7 +53,8 @@ contract SocialTokens is ERC1155URIStorage, ERC1155Holder {
         uint id,
         address owner,
         uint price,
-        uint threshold
+        uint threshold,
+        uint ownershipOnEntireTokenBatch
     );
     event SocialTokenBought(
         uint id,
@@ -57,6 +62,15 @@ contract SocialTokens is ERC1155URIStorage, ERC1155Holder {
         address supporter,
         uint amount
     );
+    event PaperMinted(
+        uint id,
+        address owner,
+        string URI,
+        uint tokenId,
+        uint subscriptionFee
+    );
+    event subscribed(address subscriber, uint paperId);
+    event rewardClaimed(address supporter, uint paperId, uint amount);
 
     constructor() ERC1155("") {
         owner = msg.sender;
@@ -75,7 +89,7 @@ contract SocialTokens is ERC1155URIStorage, ERC1155Holder {
             super.supportsInterface(interfaceId);
     }
 
-    function getEthosLink() public {
+    function getRetoks() public {
         uint amount = 100 ether;
         _mint(msg.sender, Retoks, amount, "");
     }
@@ -100,6 +114,7 @@ contract SocialTokens is ERC1155URIStorage, ERC1155Holder {
             0,
             amount,
             0,
+            0,
             0
         );
         emit SocialTokenMinted(_id, msg.sender, amount, URI);
@@ -108,7 +123,8 @@ contract SocialTokens is ERC1155URIStorage, ERC1155Holder {
     function launchSocialToken(
         uint _id,
         uint _price,
-        uint _thresholdAmount
+        uint _thresholdAmount,
+        uint _ownershipOnEntireTokenBatch
     ) public {
         require(
             socialTokens[_id].creator == msg.sender,
@@ -118,10 +134,20 @@ contract SocialTokens is ERC1155URIStorage, ERC1155Holder {
             socialTokens[_id].isLaunched == false,
             "This token is already launched"
         );
+        require(
+            socialTokens[_id].totalAmount >= _thresholdAmount,
+            "Threshold amount is greater than total amount"
+        );
+        require(
+            _ownershipOnEntireTokenBatch <= 100,
+            "Ownership on token Batch cannot be greater than 100"
+        );
         socialTokens[_id].isLaunched = true;
         socialTokens[_id].price = _price;
         socialTokens[_id].availbleAmount = socialTokens[_id].totalAmount;
         socialTokens[_id].thresholdAmount = _thresholdAmount;
+        socialTokens[_id]
+            .ownershipOnEntireTokenBatch = _ownershipOnEntireTokenBatch;
         _safeTransferFrom(
             msg.sender,
             address(this),
@@ -129,7 +155,13 @@ contract SocialTokens is ERC1155URIStorage, ERC1155Holder {
             socialTokens[_id].totalAmount,
             ""
         );
-        emit SocialTokenLaunched(_id, msg.sender, _price, _thresholdAmount);
+        emit SocialTokenLaunched(
+            _id,
+            msg.sender,
+            _price,
+            _thresholdAmount,
+            _ownershipOnEntireTokenBatch
+        );
     }
 
     function buySocialToken(
@@ -171,5 +203,68 @@ contract SocialTokens is ERC1155URIStorage, ERC1155Holder {
         }
         _safeTransferFrom(address(this), msg.sender, _id, _amount, "");
         emit SocialTokenBought(_id, researcher, msg.sender, _amount);
+    }
+
+    function mintPaper(
+        string memory _uri,
+        uint _tokenId,
+        uint _subscriptionFee
+    ) public {
+        tokenIds += 1;
+        uint256 _id = tokenIds;
+        _mint(msg.sender, _id, 1, "");
+        _setURI(_id, _uri);
+        researchPapers[_id] = ResearchPaper(
+            _id,
+            _tokenId,
+            msg.sender,
+            _uri,
+            _subscriptionFee,
+            0,
+            0
+        );
+
+        emit PaperMinted(_id, msg.sender, _uri, _tokenId, _subscriptionFee);
+    }
+
+    function withDrawSubscriptionReward(uint _id) public {
+        require(
+            supporters[msg.sender].tokenAmount[_id] > 0,
+            "You are not a supporter of this paper"
+        );
+        uint totalTokensReward = (researchPapers[_id].totalAmount *
+            socialTokens[researchPapers[_id].socialTokenId]
+                .ownershipOnEntireTokenBatch) / 100;
+        uint totalSupporterReward = (totalTokensReward *
+            supporters[msg.sender].tokenAmount[_id]) /
+            socialTokens[researchPapers[_id].socialTokenId].totalAmount;
+        uint rewardToClaim = totalSupporterReward -
+            supporters[msg.sender].rewardClaimed[_id];
+        require(rewardToClaim > 0, "You have already claimed all the rewards");
+        supporters[msg.sender].rewardClaimed[_id] += rewardToClaim;
+        researchPapers[_id].unClaimedAmount -= rewardToClaim;
+        _safeTransferFrom(address(this), msg.sender, Retoks, rewardToClaim, "");
+        emit rewardClaimed(msg.sender, _id, rewardToClaim);
+    }
+
+    function Subscribe(uint _id) public {
+        require(
+            isSubscribed[msg.sender][_id] == false,
+            "You are already subscribed to this paper"
+        );
+        require(
+            balanceOf(msg.sender, Retoks) >=
+                researchPapers[_id].subscriptionFee,
+            "You do not have enough Retoks"
+        );
+        isSubscribed[msg.sender][_id] = true;
+        _safeTransferFrom(
+            msg.sender,
+            address(this),
+            Retoks,
+            researchPapers[_id].subscriptionFee,
+            ""
+        );
+        emit subscribed(msg.sender, _id);
     }
 }
