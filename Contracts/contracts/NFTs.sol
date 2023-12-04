@@ -4,11 +4,14 @@ pragma solidity ^0.8.8;
 
 import "@openzeppelin/contracts/token/ERC1155/extensions/ERC1155URIStorage.sol";
 import "@openzeppelin/contracts/token/ERC1155/utils/ERC1155Holder.sol";
+import "hardhat/console.sol";
 
-contract SocialTokens is ERC1155URIStorage, ERC1155Holder {
+contract NFTs is ERC1155URIStorage, ERC1155Holder {
     uint private tokenIds;
     uint public Retoks;
-    address owner;
+    address public owner;
+    mapping(uint => uint) TokenHolding;
+    mapping(uint => uint) AmountWithdrawn;
 
     struct SocialToken {
         uint tokenID;
@@ -29,7 +32,8 @@ contract SocialTokens is ERC1155URIStorage, ERC1155Holder {
     struct Creator {
         uint tokenID;
         address creator;
-        string _URI;
+        string URI;
+        mapping(uint => uint) chargeClaimed;
     }
     struct ResearchPaper {
         uint tokenId;
@@ -96,10 +100,13 @@ contract SocialTokens is ERC1155URIStorage, ERC1155Holder {
 
     function registerCreator(string memory URI) public {
         tokenIds += 1;
-        uint256 _id = tokenIds;
-        creators[_id] = Creator(_id, msg.sender, URI);
-        _mint(msg.sender, _id, 1, "");
-        emit CratorRigistered(_id, msg.sender, URI);
+        uint256 id = tokenIds;
+        creators[id].tokenID = id;
+        creators[id].creator = msg.sender;
+        creators[id].URI = URI;
+        creators[id].chargeClaimed[id] = 0;
+        _mint(msg.sender, id, 1, "");
+        emit CratorRigistered(id, msg.sender, URI);
     }
 
     function mintSocialToken(uint amount, string memory URI) public {
@@ -164,11 +171,8 @@ contract SocialTokens is ERC1155URIStorage, ERC1155Holder {
         );
     }
 
-    function buySocialToken(
-        uint _id,
-        uint _amount,
-        address researcher
-    ) public payable {
+    function buySocialToken(uint _id, uint _amount) public payable {
+        address researcher = socialTokens[_id].creator;
         require(
             socialTokens[_id].isLaunched == true,
             "This token is not launched"
@@ -227,26 +231,6 @@ contract SocialTokens is ERC1155URIStorage, ERC1155Holder {
         emit PaperMinted(_id, msg.sender, _uri, _tokenId, _subscriptionFee);
     }
 
-    function withDrawSubscriptionReward(uint _id) public {
-        require(
-            supporters[msg.sender].tokenAmount[_id] > 0,
-            "You are not a supporter of this paper"
-        );
-        uint totalTokensReward = (researchPapers[_id].totalAmount *
-            socialTokens[researchPapers[_id].socialTokenId]
-                .ownershipOnEntireTokenBatch) / 100;
-        uint totalSupporterReward = (totalTokensReward *
-            supporters[msg.sender].tokenAmount[_id]) /
-            socialTokens[researchPapers[_id].socialTokenId].totalAmount;
-        uint rewardToClaim = totalSupporterReward -
-            supporters[msg.sender].rewardClaimed[_id];
-        require(rewardToClaim > 0, "You have already claimed all the rewards");
-        supporters[msg.sender].rewardClaimed[_id] += rewardToClaim;
-        researchPapers[_id].unClaimedAmount -= rewardToClaim;
-        _safeTransferFrom(address(this), msg.sender, Retoks, rewardToClaim, "");
-        emit rewardClaimed(msg.sender, _id, rewardToClaim);
-    }
-
     function Subscribe(uint _id) public {
         require(
             isSubscribed[msg.sender][_id] == false,
@@ -258,13 +242,86 @@ contract SocialTokens is ERC1155URIStorage, ERC1155Holder {
             "You do not have enough Retoks"
         );
         isSubscribed[msg.sender][_id] = true;
-        _safeTransferFrom(
-            msg.sender,
-            address(this),
-            Retoks,
-            researchPapers[_id].subscriptionFee,
-            ""
-        );
+        if (researchPapers[_id].socialTokenId != 0) {
+            _safeTransferFrom(
+                msg.sender,
+                address(this),
+                Retoks,
+                researchPapers[_id].subscriptionFee,
+                ""
+            );
+            researchPapers[_id].unClaimedAmount += researchPapers[_id]
+                .subscriptionFee;
+        } else {
+            _safeTransferFrom(
+                msg.sender,
+                researchPapers[_id].researcher,
+                Retoks,
+                researchPapers[_id].subscriptionFee,
+                ""
+            );
+            researchPapers[_id].unClaimedAmount = 0;
+        }
+        researchPapers[_id].totalAmount += researchPapers[_id].subscriptionFee;
+
         emit subscribed(msg.sender, _id);
+    }
+
+    function withdrawSubscriptionReward(uint _paperId) public {
+        if (msg.sender != researchPapers[_paperId].researcher) {
+            require(
+                supporters[msg.sender].tokenAmount[
+                    researchPapers[_paperId].socialTokenId
+                ] > 0,
+                "You are not a supporter of this paper"
+            );
+            uint totalTokensReward = (researchPapers[_paperId].totalAmount *
+                socialTokens[researchPapers[_paperId].socialTokenId]
+                    .ownershipOnEntireTokenBatch) / 100;
+            uint totalSupporterReward = (totalTokensReward *
+                supporters[msg.sender].tokenAmount[
+                    researchPapers[_paperId].socialTokenId
+                ]) /
+                socialTokens[researchPapers[_paperId].socialTokenId]
+                    .totalAmount;
+            uint rewardToClaim = totalSupporterReward -
+                supporters[msg.sender].rewardClaimed[_paperId];
+            supporters[msg.sender].rewardClaimed[_paperId] += rewardToClaim;
+            researchPapers[_paperId].unClaimedAmount -= rewardToClaim;
+            _safeTransferFrom(
+                address(this),
+                msg.sender,
+                Retoks,
+                rewardToClaim,
+                ""
+            );
+            emit rewardClaimed(msg.sender, _paperId, rewardToClaim);
+        } else {
+            require(
+                researchPapers[_paperId].researcher == msg.sender,
+                "You are not the researcher or the supporter of this paper"
+            );
+            uint researcherPercentage = 100 -
+                socialTokens[researchPapers[_paperId].socialTokenId]
+                    .ownershipOnEntireTokenBatch;
+            uint totalResearcherShare = (researchPapers[_paperId].totalAmount *
+                researcherPercentage) / 100;
+            uint rewardToClaim = totalResearcherShare -
+                creators[researchPapers[_paperId].socialTokenId].chargeClaimed[
+                    _paperId
+                ];
+            _safeTransferFrom(
+                address(this),
+                msg.sender,
+                Retoks,
+                rewardToClaim,
+                ""
+            );
+            creators[researchPapers[_paperId].socialTokenId].chargeClaimed[
+                    _paperId
+                ] += rewardToClaim;
+            researchPapers[_paperId].unClaimedAmount -= rewardToClaim;
+            emit rewardClaimed(msg.sender, _paperId, rewardToClaim);
+        }
     }
 }
