@@ -8,6 +8,8 @@
 # testing
 /coverage
 
+/go-prject 
+
 # next.js
 /.next/
 /out/
