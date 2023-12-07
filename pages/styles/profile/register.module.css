@@ -1,0 +1,72 @@
+.homeBtn {
+  position: relative;
+  top: 0;
+}
+.homeBtn {
+  left: 0;
+}
+.connectBtn {
+  position: relative;
+  right: 0;
+  left: 91%;
+}
+.btnSection {
+  position: absolute;
+  top: 38px;
+  left: 34px;
+  width: 1279px;
+  height: 47px;
+}
+.formModal,
+.formModalChild {
+  position: absolute;
+  width: 834px;
+  height: 711px;
+}
+.formModalChild {
+  top: 0;
+  left: calc(50% - 417px);
+  border-radius: 73px;
+  background-color: #cbe2ce;
+  opacity: 0.5;
+}
+.formModal {
+  top: 238px;
+  left: calc(50% - 416.5px);
+}
+.name {
+  position: relative;
+  top: calc(50% - 105.5px);
+  left: 78px;
+  margin-bottom: 25px;
+}
+.profilePhoto {
+  position: absolute;
+  top: calc(50% - 290.5px);
+  left: 48%;
+  border-radius: 100%;
+  background-color: white;
+  border-width: 2px;
+  border-color: black;
+  width: 164px;
+  height: 164px;
+}
+.submit {
+  position: relative;
+  top: 30%;
+  left: 50%;
+}
+.createProfileForm {
+  position: absolute;
+  top: calc(50% - 322px);
+  left: 353px;
+  width: 645px;
+  height: 581px;
+}
+.createProfile {
+  position: relative;
+  background-color: #e2ffe6;
+  width: 100%;
+  height: 1250px;
+  overflow: hidden;
+}
