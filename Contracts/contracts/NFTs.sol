@@ -1,20 +1,15 @@
 //SPDX-License-Identifier: MIT
 
-pragma solidity ^0.8.8;
+pragma solidity 0.8.16;
 
 import "@openzeppelin/contracts/token/ERC1155/extensions/ERC1155URIStorage.sol";
 import "@openzeppelin/contracts/token/ERC1155/utils/ERC1155Holder.sol";
-import {PrimitiveTypeUtils} from "@iden3/contracts/lib/PrimitiveTypeUtils.sol";
-import {ICircuitValidator} from "@iden3/contracts/interfaces/ICircuitValidator.sol";
-import {ZKPVerifier} from "@iden3/contracts/verifiers/ZKPVerifier.sol";
 import "hardhat/console.sol";
 
-contract NFTs is ERC1155URIStorage, ERC1155Holder,ZKPVerifier {
+contract NFTs is ERC1155URIStorage, ERC1155Holder {
     uint private tokenIds;
     uint public Retoks;
     address public owner;
-    mapping(uint => uint) TokenHolding;
-    mapping(uint => uint) AmountWithdrawn;
 
     struct SocialToken {
         uint tokenID;
@@ -27,16 +22,10 @@ contract NFTs is ERC1155URIStorage, ERC1155Holder,ZKPVerifier {
         uint thresholdAmount;
         uint ownershipOnEntireTokenBatch;
     }
-    struct Supporter {
-        address supporter;
-        mapping(uint => uint) tokenAmount;
-        mapping(uint => uint) rewardClaimed;
-    }
     struct Creator {
         uint tokenID;
         address creator;
         string URI;
-        mapping(uint => uint) chargeClaimed;
     }
     struct ResearchPaper {
         uint tokenId;
@@ -48,9 +37,10 @@ contract NFTs is ERC1155URIStorage, ERC1155Holder,ZKPVerifier {
         uint unClaimedAmount;
     }
 
-    mapping(uint => Creator) public creators;
+    mapping(address => Creator) public creators;
     mapping(uint => SocialToken) public socialTokens;
-    mapping(address => Supporter) public supporters;
+    mapping(address => mapping(uint => uint)) public supporterTokenHoldings; //supporter => tokenID => amount
+    mapping(address => mapping(uint => uint)) public addressRewardClaimed; //supporter => tokenID => amount
     mapping(uint => ResearchPaper) public researchPapers;
     mapping(address => mapping(uint => bool)) public isSubscribed;
 
@@ -80,20 +70,50 @@ contract NFTs is ERC1155URIStorage, ERC1155Holder,ZKPVerifier {
     event rewardClaimed(address supporter, uint paperId, uint amount);
 
     constructor() ERC1155("") {
-        owner = msg.sender;
         Retoks = tokenIds;
+        owner = msg.sender;
     }
 
     function getCurrentTokenId() public view returns (uint) {
         return tokenIds;
     }
 
+    function getCreator(
+        address _creator
+    ) external view returns (Creator memory) {
+        return creators[_creator];
+    }
+
+    function getSocialToken(
+        uint _id
+    ) external view returns (SocialToken memory) {
+        return socialTokens[_id];
+    }
+
+    function getSupporterTokenHoldings(
+        address _supporter,
+        uint _id
+    ) external view returns (uint) {
+        return supporterTokenHoldings[_supporter][_id];
+    }
+
+    function getAddressRewardClaimed(
+        address _address,
+        uint _id
+    ) external view returns (uint) {
+        return addressRewardClaimed[_address][_id];
+    }
+
+    function getResearchPaper(
+        uint _id
+    ) public view returns (ResearchPaper memory) {
+        return researchPapers[_id];
+    }
+
     function supportsInterface(
         bytes4 interfaceId
-    ) public view virtual override(ERC1155, ERC1155Holder) returns (bool) {
-        return
-            interfaceId == type(IERC165).interfaceId ||
-            super.supportsInterface(interfaceId);
+    ) public view virtual override(ERC1155, ERC1155Receiver) returns (bool) {
+        return super.supportsInterface(interfaceId);
     }
 
     function getRetoks() public {
@@ -104,10 +124,9 @@ contract NFTs is ERC1155URIStorage, ERC1155Holder,ZKPVerifier {
     function registerCreator(string memory URI) public {
         tokenIds += 1;
         uint256 id = tokenIds;
-        creators[id].tokenID = id;
-        creators[id].creator = msg.sender;
-        creators[id].URI = URI;
-        creators[id].chargeClaimed[id] = 0;
+        creators[msg.sender].tokenID = id;
+        creators[msg.sender].creator = msg.sender;
+        creators[msg.sender].URI = URI;
         _mint(msg.sender, id, 1, "");
         emit CratorRigistered(id, msg.sender, URI);
     }
@@ -189,7 +208,7 @@ contract NFTs is ERC1155URIStorage, ERC1155Holder,ZKPVerifier {
             "You do not have enough Retoks"
         );
         require(
-            supporters[msg.sender].tokenAmount[_id] <
+            supporterTokenHoldings[msg.sender][_id] <
                 socialTokens[_id].thresholdAmount,
             "You have already bought the maximum amount of tokens"
         );
@@ -201,13 +220,7 @@ contract NFTs is ERC1155URIStorage, ERC1155Holder,ZKPVerifier {
             socialTokens[_id].price * _amount,
             ""
         );
-        if (supporters[msg.sender].tokenAmount[_id] == 0) {
-            supporters[msg.sender].supporter = msg.sender;
-            supporters[msg.sender].tokenAmount[_id] = _amount;
-            supporters[msg.sender].rewardClaimed[_id] = 0;
-        } else {
-            supporters[msg.sender].tokenAmount[_id] += _amount;
-        }
+        supporterTokenHoldings[msg.sender][_id] += _amount;
         _safeTransferFrom(address(this), msg.sender, _id, _amount, "");
         emit SocialTokenBought(_id, researcher, msg.sender, _amount);
     }
@@ -273,7 +286,7 @@ contract NFTs is ERC1155URIStorage, ERC1155Holder,ZKPVerifier {
     function withdrawSubscriptionReward(uint _paperId) public {
         if (msg.sender != researchPapers[_paperId].researcher) {
             require(
-                supporters[msg.sender].tokenAmount[
+                supporterTokenHoldings[msg.sender][
                     researchPapers[_paperId].socialTokenId
                 ] > 0,
                 "You are not a supporter of this paper"
@@ -282,14 +295,14 @@ contract NFTs is ERC1155URIStorage, ERC1155Holder,ZKPVerifier {
                 socialTokens[researchPapers[_paperId].socialTokenId]
                     .ownershipOnEntireTokenBatch) / 100;
             uint totalSupporterReward = (totalTokensReward *
-                supporters[msg.sender].tokenAmount[
+                supporterTokenHoldings[msg.sender][
                     researchPapers[_paperId].socialTokenId
                 ]) /
                 socialTokens[researchPapers[_paperId].socialTokenId]
                     .totalAmount;
             uint rewardToClaim = totalSupporterReward -
-                supporters[msg.sender].rewardClaimed[_paperId];
-            supporters[msg.sender].rewardClaimed[_paperId] += rewardToClaim;
+                addressRewardClaimed[msg.sender][_paperId];
+            supporterTokenHoldings[msg.sender][_paperId] += rewardToClaim;
             researchPapers[_paperId].unClaimedAmount -= rewardToClaim;
             _safeTransferFrom(
                 address(this),
@@ -310,7 +323,7 @@ contract NFTs is ERC1155URIStorage, ERC1155Holder,ZKPVerifier {
             uint totalResearcherShare = (researchPapers[_paperId].totalAmount *
                 researcherPercentage) / 100;
             uint rewardToClaim = totalResearcherShare -
-                creators[researchPapers[_paperId].socialTokenId].chargeClaimed[
+                addressRewardClaimed[researchPapers[_paperId].researcher][
                     _paperId
                 ];
             _safeTransferFrom(
@@ -320,9 +333,9 @@ contract NFTs is ERC1155URIStorage, ERC1155Holder,ZKPVerifier {
                 rewardToClaim,
                 ""
             );
-            creators[researchPapers[_paperId].socialTokenId].chargeClaimed[
-                    _paperId
-                ] += rewardToClaim;
+            addressRewardClaimed[researchPapers[_paperId].researcher][
+                _paperId
+            ] += rewardToClaim;
             researchPapers[_paperId].unClaimedAmount -= rewardToClaim;
             emit rewardClaimed(msg.sender, _paperId, rewardToClaim);
         }

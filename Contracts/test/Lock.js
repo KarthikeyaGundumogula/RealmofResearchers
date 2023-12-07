@@ -92,8 +92,6 @@ describe("NFTs Interaction", function () {
     await NFTs.connect(addr1).getRetoks();
     await NFTs.connect(addr1).Subscribe(2);
     await NFTs.connect(addr2).withdrawSubscriptionReward(2);
-    expect(await NFTs.balanceOf(addr2.address, 0)).to.equal(
-      
-    );
+    expect(await NFTs.balanceOf(addr2.address, 0)).to.equal(0);
   });
 });
