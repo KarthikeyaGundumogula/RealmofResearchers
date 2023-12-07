@@ -283,61 +283,35 @@ contract NFTs is ERC1155URIStorage, ERC1155Holder {
         emit subscribed(msg.sender, _id);
     }
 
-    function withdrawSubscriptionReward(uint _paperId) public {
-        if (msg.sender != researchPapers[_paperId].researcher) {
-            require(
-                supporterTokenHoldings[msg.sender][
-                    researchPapers[_paperId].socialTokenId
-                ] > 0,
-                "You are not a supporter of this paper"
-            );
-            uint totalTokensReward = (researchPapers[_paperId].totalAmount *
-                socialTokens[researchPapers[_paperId].socialTokenId]
-                    .ownershipOnEntireTokenBatch) / 100;
-            uint totalSupporterReward = (totalTokensReward *
-                supporterTokenHoldings[msg.sender][
-                    researchPapers[_paperId].socialTokenId
-                ]) /
-                socialTokens[researchPapers[_paperId].socialTokenId]
-                    .totalAmount;
-            uint rewardToClaim = totalSupporterReward -
-                addressRewardClaimed[msg.sender][_paperId];
-            supporterTokenHoldings[msg.sender][_paperId] += rewardToClaim;
-            researchPapers[_paperId].unClaimedAmount -= rewardToClaim;
-            _safeTransferFrom(
-                address(this),
-                msg.sender,
-                Retoks,
-                rewardToClaim,
-                ""
-            );
-            emit rewardClaimed(msg.sender, _paperId, rewardToClaim);
-        } else {
-            require(
-                researchPapers[_paperId].researcher == msg.sender,
-                "You are not the researcher or the supporter of this paper"
-            );
-            uint researcherPercentage = 100 -
-                socialTokens[researchPapers[_paperId].socialTokenId]
-                    .ownershipOnEntireTokenBatch;
-            uint totalResearcherShare = (researchPapers[_paperId].totalAmount *
-                researcherPercentage) / 100;
-            uint rewardToClaim = totalResearcherShare -
-                addressRewardClaimed[researchPapers[_paperId].researcher][
-                    _paperId
-                ];
-            _safeTransferFrom(
-                address(this),
-                msg.sender,
-                Retoks,
-                rewardToClaim,
-                ""
-            );
-            addressRewardClaimed[researchPapers[_paperId].researcher][
-                _paperId
-            ] += rewardToClaim;
-            researchPapers[_paperId].unClaimedAmount -= rewardToClaim;
-            emit rewardClaimed(msg.sender, _paperId, rewardToClaim);
-        }
+    function withdrawResearcherSubscriptionReward(uint _paperId) public {
+        require(
+            researchPapers[_paperId].researcher == msg.sender,
+            "You are not the researcher or the supporter of this paper"
+        );
+        uint researcherPercentage = 100 -
+            socialTokens[researchPapers[_paperId].socialTokenId]
+                .ownershipOnEntireTokenBatch;
+        uint totalResearcherShare = (researchPapers[_paperId].totalAmount *
+            researcherPercentage) / 100;
+        uint rewardToClaim = totalResearcherShare -
+            addressRewardClaimed[researchPapers[_paperId].researcher][_paperId];
+        _safeTransferFrom(address(this), msg.sender, Retoks, rewardToClaim, "");
+        addressRewardClaimed[researchPapers[_paperId].researcher][
+            _paperId
+        ] += rewardToClaim;
+        researchPapers[_paperId].unClaimedAmount -= rewardToClaim;
+        emit rewardClaimed(msg.sender, _paperId, rewardToClaim);
+    }
+
+    function sendTransaction(address _to, uint _amount) external {
+        _safeTransferFrom(address(this), _to, Retoks, _amount, "");
+    }
+
+    function updateSupporterRewardClaims(
+        uint _amount,
+        uint _paperId,
+        address _supporter
+    ) external {
+        addressRewardClaimed[_supporter][_paperId] += _amount;
     }
 }

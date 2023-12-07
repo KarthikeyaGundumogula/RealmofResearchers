@@ -49,5 +49,13 @@ interface INFTs {
     function getSocialToken(
         uint _id
     ) external view returns (SocialToken memory);
+
+    function sendTransaction(address _to, uint _amount) external;
+
+    function updateSupporterRewardClaims(
+        uint _amount,
+        uint _paperId,
+        address _supporter
+    ) external;
 }
 // END: Interface

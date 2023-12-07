@@ -78,7 +78,7 @@ describe("NFTs Interaction", function () {
     await NFTs.mintPaper("karthikeya", 1, 10);
     await NFTs.connect(addr1).getRetoks();
     await NFTs.connect(addr1).Subscribe(2);
-    await NFTs.connect(owner).withdrawSubscriptionReward(2);
+    await NFTs.connect(owner).withdrawResearcherSubscriptionReward(2);
     expect(await NFTs.balanceOf(owner.address, 0)).to.equal(4);
   });
   it("withdrawing the subscription reward as a supporter", async function () {
@@ -91,7 +91,9 @@ describe("NFTs Interaction", function () {
     await NFTs.mintPaper("karthikeya", 1, 100);
     await NFTs.connect(addr1).getRetoks();
     await NFTs.connect(addr1).Subscribe(2);
-    await NFTs.connect(addr2).withdrawSubscriptionReward(2);
-    expect(await NFTs.balanceOf(addr2.address, 0)).to.equal(0);
+    const verifier = await ethers.deployContract("Verifier", [NFTs]);
+    await verifier.connect(addr2).withdrawSupporterReward(2, addr2.address);
+    expect(await NFTs.balanceOf(addr2.address, 0)).to.equal(4);
+    console.log(NFTs);
   });
 });

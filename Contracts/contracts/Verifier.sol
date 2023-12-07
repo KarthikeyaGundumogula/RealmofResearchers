@@ -17,14 +17,13 @@ contract Verifier is ZKPVerifier {
         nfts = INFTs(_NFTs);
     }
 
+    event rewardClaimed(address supporter, uint paperId, uint amount);
+
     function verifyProof() public view returns (bool) {
         return true;
     }
 
-    function withdrawSubscriberReward(
-        uint _paperId,
-        address _supporter
-    ) private {
+    function withdrawSupporterReward(uint _paperId, address _supporter) public {
         INFTs.ResearchPaper memory paper = nfts.getResearchPaper(_paperId);
         uint socialTokenId = paper.socialTokenId;
         INFTs.SocialToken memory socialToken = nfts.getSocialToken(
@@ -40,5 +39,9 @@ contract Verifier is ZKPVerifier {
             socialToken.totalAmount;
         uint rewardToClaim = totalSupporterReward -
             nfts.getAddressRewardClaimed(_supporter, _paperId);
+
+        nfts.sendTransaction(_supporter, rewardToClaim);
+        nfts.updateSupporterRewardClaims(rewardToClaim, _paperId, _supporter);
+        emit rewardClaimed(_supporter, _paperId, rewardToClaim);
     }
 }
