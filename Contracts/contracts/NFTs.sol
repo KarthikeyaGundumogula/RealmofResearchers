@@ -4,9 +4,12 @@ pragma solidity ^0.8.8;
 
 import "@openzeppelin/contracts/token/ERC1155/extensions/ERC1155URIStorage.sol";
 import "@openzeppelin/contracts/token/ERC1155/utils/ERC1155Holder.sol";
+import {PrimitiveTypeUtils} from "@iden3/contracts/lib/PrimitiveTypeUtils.sol";
+import {ICircuitValidator} from "@iden3/contracts/interfaces/ICircuitValidator.sol";
+import {ZKPVerifier} from "@iden3/contracts/verifiers/ZKPVerifier.sol";
 import "hardhat/console.sol";
 
-contract NFTs is ERC1155URIStorage, ERC1155Holder {
+contract NFTs is ERC1155URIStorage, ERC1155Holder,ZKPVerifier {
     uint private tokenIds;
     uint public Retoks;
     address public owner;
