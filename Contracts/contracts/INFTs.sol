@@ -17,6 +17,10 @@ interface INFTs {
         uint tokenID;
         address creator;
         string URI;
+        uint citations;
+        uint noOfPapers;
+        uint avgSuccessinOnTimePublishing;
+        uint avgNoOfSubscribers;
     }
     struct ResearchPaper {
         uint tokenId;
@@ -26,6 +30,7 @@ interface INFTs {
         uint subscriptionFee;
         uint totalAmount;
         uint unClaimedAmount;
+        uint noOfSubscribers;
     }
 
     function getCreator(
@@ -57,5 +62,7 @@ interface INFTs {
         uint _paperId,
         address _supporter
     ) external;
+
+    function getPaperIdBySocialTokenId(uint _id) external view returns (uint);
 }
 // END: Interface

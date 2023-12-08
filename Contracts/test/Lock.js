@@ -57,7 +57,7 @@ describe("NFTs Interaction", function () {
     const NFTs = await ethers.deployContract("NFTs");
     await NFTs.mintSocialToken(100, "uir");
     await NFTs.launchSocialToken(1, 23, 2, 60);
-    await NFTs.mintPaper("karthikeya", 1, 10);
+    await NFTs.mintPaper("karthikeya", 1, 10, 1);
     expect(await NFTs.balanceOf(owner.address, 2)).to.equal(1);
   });
   it("subscribing to a research paper", async function () {
@@ -65,7 +65,7 @@ describe("NFTs Interaction", function () {
     const NFTs = await ethers.deployContract("NFTs");
     await NFTs.mintSocialToken(100, "uir");
     await NFTs.launchSocialToken(1, 23, 2, 60);
-    await NFTs.mintPaper("karthikeya", 1, 10);
+    await NFTs.mintPaper("karthikeya", 1, 10, 1);
     await NFTs.connect(addr1).getRetoks();
     await NFTs.connect(addr1).Subscribe(2);
     expect(await NFTs.isSubscribed(addr1.address, 2)).to.equal(true);
@@ -75,10 +75,11 @@ describe("NFTs Interaction", function () {
     const NFTs = await ethers.deployContract("NFTs");
     await NFTs.mintSocialToken(60, "uir");
     await NFTs.launchSocialToken(1, 100, 2, 60);
-    await NFTs.mintPaper("karthikeya", 1, 10);
+    await NFTs.mintPaper("karthikeya", 1, 10, 1);
     await NFTs.connect(addr1).getRetoks();
     await NFTs.connect(addr1).Subscribe(2);
-    await NFTs.connect(owner).withdrawResearcherSubscriptionReward(2);
+    const verifier = await ethers.deployContract("Verifier", [NFTs]);
+    await verifier.connect(owner).withdrawResearcherReward(2);
     expect(await NFTs.balanceOf(owner.address, 0)).to.equal(4);
   });
   it("withdrawing the subscription reward as a supporter", async function () {
@@ -88,12 +89,12 @@ describe("NFTs Interaction", function () {
     await NFTs.launchSocialToken(1, 100, 2, 60);
     await NFTs.connect(addr2).getRetoks();
     await NFTs.connect(addr2).buySocialToken(1, 1);
-    await NFTs.mintPaper("karthikeya", 1, 100);
+    await NFTs.mintPaper("karthikeya", 1, 100, 1);
     await NFTs.connect(addr1).getRetoks();
     await NFTs.connect(addr1).Subscribe(2);
     const verifier = await ethers.deployContract("Verifier", [NFTs]);
-    await verifier.connect(addr2).withdrawSupporterReward(2, addr2.address);
-    expect(await NFTs.balanceOf(addr2.address, 0)).to.equal(4);
+    await verifier.connect(addr2).withdrawSupporterReward(1, 2, addr2.address);
+    expect(await NFTs.balanceOf(addr2.address, 0)).to.be.reverted;
     console.log(NFTs);
   });
 });

@@ -26,6 +26,9 @@ contract NFTs is ERC1155URIStorage, ERC1155Holder {
         uint tokenID;
         address creator;
         string URI;
+        uint noOfPapers;
+        uint avgSuccessinOnTimePublishing;
+        uint avgNoOfSubscribers;
     }
     struct ResearchPaper {
         uint tokenId;
@@ -35,10 +38,12 @@ contract NFTs is ERC1155URIStorage, ERC1155Holder {
         uint subscriptionFee;
         uint totalAmount;
         uint unClaimedAmount;
+        uint noOfSubscribers;
     }
 
     mapping(address => Creator) public creators;
     mapping(uint => SocialToken) public socialTokens;
+    mapping(uint => uint) public socialTokenToPaper;
     mapping(address => mapping(uint => uint)) public supporterTokenHoldings; //supporter => tokenID => amount
     mapping(address => mapping(uint => uint)) public addressRewardClaimed; //supporter => tokenID => amount
     mapping(uint => ResearchPaper) public researchPapers;
@@ -64,7 +69,8 @@ contract NFTs is ERC1155URIStorage, ERC1155Holder {
         address owner,
         string URI,
         uint tokenId,
-        uint subscriptionFee
+        uint subscriptionFee,
+        uint avgSuccessOnPublishing
     );
     event subscribed(address subscriber, uint paperId);
     event rewardClaimed(address supporter, uint paperId, uint amount);
@@ -128,6 +134,9 @@ contract NFTs is ERC1155URIStorage, ERC1155Holder {
         creators[msg.sender].creator = msg.sender;
         creators[msg.sender].URI = URI;
         _mint(msg.sender, id, 1, "");
+        _setURI(id, URI);
+        creators[msg.sender].avgSuccessinOnTimePublishing = 0;
+        creators[msg.sender].avgNoOfSubscribers = 0;
         emit CratorRigistered(id, msg.sender, URI);
     }
 
@@ -228,7 +237,8 @@ contract NFTs is ERC1155URIStorage, ERC1155Holder {
     function mintPaper(
         string memory _uri,
         uint _tokenId,
-        uint _subscriptionFee
+        uint _subscriptionFee,
+        uint _ontime
     ) public {
         tokenIds += 1;
         uint256 _id = tokenIds;
@@ -241,10 +251,25 @@ contract NFTs is ERC1155URIStorage, ERC1155Holder {
             _uri,
             _subscriptionFee,
             0,
+            0,
             0
         );
+        socialTokenToPaper[_tokenId] = _id;
+        creators[msg.sender].avgSuccessinOnTimePublishing =
+            (creators[msg.sender].avgSuccessinOnTimePublishing *
+                creators[msg.sender].noOfPapers +
+                _ontime) /
+            (creators[msg.sender].noOfPapers + 1);
+        creators[msg.sender].noOfPapers += 1;
 
-        emit PaperMinted(_id, msg.sender, _uri, _tokenId, _subscriptionFee);
+        emit PaperMinted(
+            _id,
+            msg.sender,
+            _uri,
+            _tokenId,
+            _subscriptionFee,
+            creators[msg.sender].avgSuccessinOnTimePublishing
+        );
     }
 
     function Subscribe(uint _id) public {
@@ -279,28 +304,13 @@ contract NFTs is ERC1155URIStorage, ERC1155Holder {
             researchPapers[_id].unClaimedAmount = 0;
         }
         researchPapers[_id].totalAmount += researchPapers[_id].subscriptionFee;
-
+        researchPapers[_id].noOfSubscribers += 1;
+        creators[researchPapers[_id].researcher].avgNoOfSubscribers =
+            (creators[researchPapers[_id].researcher].avgNoOfSubscribers *
+                creators[researchPapers[_id].researcher].noOfPapers +
+                researchPapers[_id].noOfSubscribers) /
+            (creators[researchPapers[_id].researcher].noOfPapers + 1);
         emit subscribed(msg.sender, _id);
-    }
-
-    function withdrawResearcherSubscriptionReward(uint _paperId) public {
-        require(
-            researchPapers[_paperId].researcher == msg.sender,
-            "You are not the researcher or the supporter of this paper"
-        );
-        uint researcherPercentage = 100 -
-            socialTokens[researchPapers[_paperId].socialTokenId]
-                .ownershipOnEntireTokenBatch;
-        uint totalResearcherShare = (researchPapers[_paperId].totalAmount *
-            researcherPercentage) / 100;
-        uint rewardToClaim = totalResearcherShare -
-            addressRewardClaimed[researchPapers[_paperId].researcher][_paperId];
-        _safeTransferFrom(address(this), msg.sender, Retoks, rewardToClaim, "");
-        addressRewardClaimed[researchPapers[_paperId].researcher][
-            _paperId
-        ] += rewardToClaim;
-        researchPapers[_paperId].unClaimedAmount -= rewardToClaim;
-        emit rewardClaimed(msg.sender, _paperId, rewardToClaim);
     }
 
     function sendTransaction(address _to, uint _amount) external {
@@ -313,5 +323,9 @@ contract NFTs is ERC1155URIStorage, ERC1155Holder {
         address _supporter
     ) external {
         addressRewardClaimed[_supporter][_paperId] += _amount;
+    }
+
+    function getPaperIdBySocialTokenId(uint _id) external view returns (uint) {
+        return socialTokenToPaper[_id];
     }
 }
