@@ -1,73 +1,105 @@
-import { Button, IconButton } from "@chakra-ui/react";
 import styles from "../../styles/profile/researcher.module.css";
 import ResearchPaperCard from "../Researcher-Page/Research-Paper-Card";
 import TokenTableRow from "../Researcher-Page/Token-Table-Row";
 import TokenHoldingRow from "./Token-Hoding-Row";
-import NextLink from "next/link";
-import { Link } from "@chakra-ui/react";
-import { useAccount, useConnect } from "wagmi";
+import { useAccount } from "wagmi";
 import { getGraphData } from "../../Utils/getGraphData";
-
+import { useEffect, useState } from "react";
+import { Button, HStack } from "@chakra-ui/react";
+import { RandomAvatar } from "react-random-avatars";
+import TokenMintModal from "./mint-modals/token-mint-modal";
+import PaperMintModal from "./mint-modals/paper-mint-modal";
 const ResearcherProfileV2 = (props) => {
+  const [researchPapers, setResearchPapers] = useState([]);
+  const [socialTokens, setSocialTokens] = useState([]);
+  const [supporters, setSupporters] = useState([]);
   const { address } = useAccount();
+  const [tokenMintModalOpen, setTokenMintModalOpen] = useState(false);
+  const [paperMinModalOpen, setPaperMinModalOpen] = useState(false);
 
   useEffect(() => {
-    async function getCreator() {
+    async function getData() {
       const query = `{
-        researchPapers(where: {researcher: ""}) {
-          URI
+        researchPapers(where: {researcher:"${props.data.address}"}) {
+        id
         }
-        socialTokens(where: {creator: ""}) {
-          URI
-          ownershipOnEntireTokenBatch
-          totalAmountMinted
+        socialTokens(where: {creator:"${props.data.address}"}) {
+          id
         }
-        supporters(where: {supporter: ""}) {
+        supporters(where: {supporter:"${props.data.address}"}) {
           paperID
         }
       }`;
       try {
-        const response = getGraphData(query);
+        const response = await getGraphData(query);
         console.log(response);
+        setResearchPapers(response.data.data.researchPapers);
+        setSocialTokens(response.data.data.socialTokens);
+        setSupporters(response.data.data.supporters);
       } catch (e) {
         console.error(e);
       }
     }
+    getData();
   }, []);
+  const handleMintToken = () => {
+    setTokenMintModalOpen(true);
+  };
+  const modalClosed = () => {
+    setTokenMintModalOpen(false);
+    setPaperMinModalOpen(false);
+  };
+  const handlePaperMint = () => {
+    setPaperMinModalOpen(true);
+  };
   return (
     <div className={styles.researcherProfileV2}>
-      <header className={styles.btnSection}>
-        <Link as={NextLink} href="/">
-          <Button
-            className={styles.homeBtn}
-            variant="solid"
-            w="138px"
-            colorScheme="green"
-          >
-            Home
-          </Button>
-        </Link>
+      <HStack spacing={"150px"} paddingLeft={"13%"}>
         <Button
-          className={styles.connectBtn}
           variant="solid"
           w="138px"
-          colorScheme="green"
+          colorScheme="teal"
+          onClick={() => {
+            handlePaperMint();
+          }}
         >
-          .Connect
+          Mint Paper
         </Button>
-      </header>
+        <Button
+          variant="solid"
+          w="148px"
+          colorScheme="teal"
+          onClick={() => {
+            handleMintToken();
+          }}
+        >
+          Mint SocialToken
+        </Button>
+        <Button variant="solid" w="138px" colorScheme="teal">
+          Get RCI VC
+        </Button>
+        <Button variant="solid" w="138px" colorScheme="teal">
+          Get Retoks
+        </Button>
+      </HStack>
+      {tokenMintModalOpen && <TokenMintModal onClose={modalClosed} />}
+      {paperMinModalOpen && <PaperMintModal onClose={modalClosed} />}
       <section className={styles.profileIntro}>
         <h1 className={styles.tonyStark}>Tony Stark</h1>
         <b className={styles.rrTokenBalance12345885}>
-          RR-Token Balance: 12345885
+          ReToks Balance: 12345885
         </b>
-        <div className={styles.profileIntroChild} />
+        <div className={styles.profileIntroChild}>
+          <RandomAvatar name={props.data.address} size={157} />{" "}
+        </div>
         <div className={styles.x9392540366}>{props.data.address}</div>
       </section>
       <div className={styles.publishedPapersSection}>
         <h1 className={styles.publishedPapers}>Published-Papers</h1>
         <div className={styles.papersStack}>
-          <ResearchPaperCard />
+          {researchPapers.map((paper) => {
+            return <ResearchPaperCard />;
+          })}
         </div>
       </div>
       <section className={styles.tokensSection}>
@@ -87,8 +119,9 @@ const ResearcherProfileV2 = (props) => {
             <div className={styles.subscriptionFee}>Subscription Fee</div>
           </div>
           <div className={styles.tokenTableChild} />
-          <TokenTableRow />
-          <TokenTableRow />
+          {socialTokens.map((token) => {
+            return <TokenTableRow />;
+          })}
         </div>
       </section>
       <section className={styles.sciTokensSection}>
@@ -110,7 +143,9 @@ const ResearcherProfileV2 = (props) => {
             <div className={styles.gain}>Gain</div>
           </div>
           <div className={styles.tokenTableChild} />
-          <TokenHoldingRow />
+          {supporters.map((token) => {
+            return <TokenHoldingRow />;
+          })}
         </div>
       </section>
     </div>

@@ -40,9 +40,6 @@
   position: absolute;
   top: 0;
   left: calc(50% - 75px);
-  border-radius: 50%;
-  width: 151px;
-  height: 162.2px;
   object-fit: cover;
 }
 
@@ -63,7 +60,7 @@
 }
 .x9392540366 {
   top: 235.4px;
-  left: 205px;
+  left: calc(35% - 100.1px);
   font-size: var(--font-size-base);
   font-weight: 200;
   width: auto;

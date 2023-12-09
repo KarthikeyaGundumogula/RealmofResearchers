@@ -5,15 +5,21 @@
 }
 .homeBtn {
   left: 0;
+  right: 2%;
 }
 .connectBtn {
   right: 0;
-  left: 88%;
+  left: 81%;
 }
 .btnSection {
+  padding-top: 20px;
   position: relative;
-  width: 1279px;
+  width: 100%;
   height: 47px;
+  background-color: var(--color-honeydew);
+}
+.btnStack {
+  left: 30%;
 }
 .rrTokenBalance12345885,
 .tonyStark {
@@ -40,9 +46,8 @@
   top: 0;
   left: calc(50% - 79px);
   border-radius: 50%;
-  background-color: var(--color-gainsboro);
   width: 157px;
-  height: 162px;
+  height: 157px;
 }
 .x9392540366 {
   position: absolute;

@@ -1,6 +1,7 @@
-import styles from "../../styles/profile/register.module.css";
+import styles from "./styles/profile/register.module.css";
 import { Button, IconButton, Input } from "@chakra-ui/react";
 import { useState } from "react";
+import { RandomAvatar } from "react-random-avatars";
 
 const CreateProfile = () => {
   const [name, setName] = useState("");
@@ -9,7 +10,6 @@ const CreateProfile = () => {
   const [university, setUniversity] = useState("");
   const [fieldOfStudy, setFieldOfStudy] = useState("");
   const [employmentId, setEmploymentId] = useState("");
-  const [profilePhoto, setProfilePhoto] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -47,12 +47,14 @@ const CreateProfile = () => {
         <div className={styles.formModalChild} />
       </fieldset>
       <form className={styles.createProfileForm}>
-        <input
-          className={styles.profilePhoto}
-          type="file"
-          variant="fill"
-          placeholder="Upload DP"
-        />
+        <div className={styles.profilePhoto}>
+          <RandomAvatar
+            name="Tony Stark"
+            size={157}
+            variant="beam"
+            colors={["#00FF00", "#FF0000"]}
+          />
+        </div>
         <Input
           className={styles.name}
           variant="fill"
