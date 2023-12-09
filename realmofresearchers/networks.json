@@ -3,6 +3,9 @@
     "Contract": {
       "address": "0x66FBde39f4325C57dDBA2f9f85194FbA453fFC7E",
       "startBlock": 43321335
+    },
+    "Verifier": {
+      "address": "0x12cEBfF1D38833EBB73528097bC97e346a8446fD"
     }
   }
 }

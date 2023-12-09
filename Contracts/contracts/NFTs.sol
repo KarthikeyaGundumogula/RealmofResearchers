@@ -44,8 +44,8 @@ contract NFTs is ERC1155URIStorage, ERC1155Holder {
     mapping(address => Creator) public creators;
     mapping(uint => SocialToken) public socialTokens;
     mapping(uint => uint) public socialTokenToPaper;
-    mapping(address => mapping(uint => uint)) public supporterTokenHoldings; //supporter => tokenID => amount
-    mapping(address => mapping(uint => uint)) public addressRewardClaimed; //supporter => tokenID => amount
+    mapping(address => mapping(uint => uint)) public supporterTokenHoldings; //supporter => socialtokenID => amount
+    mapping(address => mapping(uint => uint)) public addressRewardClaimed; //supporter => PapertokenID => amount
     mapping(uint => ResearchPaper) public researchPapers;
     mapping(address => mapping(uint => bool)) public isSubscribed;
 

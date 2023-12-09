@@ -1,6 +1,6 @@
 specVersion: 0.0.5
 schema:
-  file: ./schema.graphql
+  file: schema.graphql
 dataSources:
   - kind: ethereum
     name: Contract
@@ -20,7 +20,7 @@ dataSources:
         - Supporter
       abis:
         - name: Contract
-          file: ./abis/Contract.json
+          file: Contract\abis\Contract.json
       eventHandlers:
         - event: CratorRigistered(uint256,address,string)
           handler: handleCratorRigistered
@@ -36,7 +36,7 @@ dataSources:
           handler: handlerewardClaimed
         - event: subscribed(address,uint256)
           handler: handlesubscribed
-      file: ./src/contract.ts
+      file: Contract\Contract.wasm
   - kind: ethereum
     name: Verifier
     network: mumbai
@@ -52,8 +52,8 @@ dataSources:
         - rewardClaimed
       abis:
         - name: Verifier
-          file: ./abis/Verifier.json
+          file: Verifier\abis\Verifier.json
       eventHandlers:
         - event: rewardClaimed(address,uint256,uint256)
           handler: handlerewardClaimed
-      file: ./src/verifier.ts
+      file: Verifier\Verifier.wasm

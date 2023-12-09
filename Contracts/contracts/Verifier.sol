@@ -49,12 +49,7 @@ contract Verifier is ZKPVerifier {
         isProofVerified[did] = true;
     }
 
-    function withdrawSupporterReward(
-        uint userID,
-        uint tokenId,
-        address _supporter
-    ) public {
-        require(isProofVerified[userID], "Proof not verified for this token");
+    function withdrawSupporterReward(uint tokenId, address _supporter) public {
         uint _paperId = nfts.getPaperIdBySocialTokenId(tokenId);
         INFTs.ResearchPaper memory paper = nfts.getResearchPaper(_paperId);
         uint socialTokenId = paper.socialTokenId;
@@ -74,7 +69,6 @@ contract Verifier is ZKPVerifier {
 
         nfts.sendTransaction(_supporter, rewardToClaim);
         nfts.updateSupporterRewardClaims(rewardToClaim, _paperId, _supporter);
-        isProofVerified[userID] = false;
         emit rewardClaimed(_supporter, _paperId, rewardToClaim);
     }
 
@@ -98,5 +92,6 @@ contract Verifier is ZKPVerifier {
             _paperId,
             paper.researcher
         );
+        emit rewardClaimed(paper.researcher, _paperId, rewardToClaim);
     }
 }

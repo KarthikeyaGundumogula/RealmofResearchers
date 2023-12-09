@@ -50,48 +50,41 @@ const CreateProfile = () => {
         <input
           className={styles.profilePhoto}
           type="file"
-          colorScheme="blue"
           variant="fill"
           placeholder="Upload DP"
         />
         <Input
           className={styles.name}
-          colorScheme="blue"
           variant="fill"
           placeholder="Name"
           onChange={(e) => setName(e.target.value)}
         />
         <Input
           className={styles.name}
-          colorScheme="blue"
           variant="fill"
           placeholder="DID"
           onChange={(e) => setDid(e.target.value)}
         />
         <Input
           className={styles.name}
-          colorScheme="blue"
           variant="fill"
           placeholder="description"
           onChange={(e) => setDescription(e.target.value)}
         />
         <Input
           className={styles.name}
-          colorScheme="blue"
           variant="fill"
           placeholder="university"
           onChange={(e) => setUniversity(e.target.value)}
         />
         <Input
           className={styles.name}
-          colorScheme="blue"
           variant="fill"
           placeholder="Field of study"
           onChange={(e) => setFieldOfStudy(e.target.value)}
         />
         <Input
           className={styles.name}
-          colorScheme="blue"
           variant="fill"
           placeholder="Employment ID"
           onChange={(e) => setEmploymentId(e.target.value)}

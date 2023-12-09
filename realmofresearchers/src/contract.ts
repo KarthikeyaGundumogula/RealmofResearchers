@@ -1,200 +1,112 @@
+import { BigInt } from "@graphprotocol/graph-ts";
 import {
-  ApprovalForAll as ApprovalForAllEvent,
   CratorRigistered as CratorRigisteredEvent,
   PaperMinted as PaperMintedEvent,
   SocialTokenBought as SocialTokenBoughtEvent,
   SocialTokenLaunched as SocialTokenLaunchedEvent,
   SocialTokenMinted as SocialTokenMintedEvent,
-  TransferBatch as TransferBatchEvent,
-  TransferSingle as TransferSingleEvent,
-  URI as URIEvent,
   rewardClaimed as rewardClaimedEvent,
-  subscribed as subscribedEvent
-} from "../generated/Contract/Contract"
+  subscribed as subscribedEvent,
+} from "../generated/Contract/Contract";
 import {
-  ApprovalForAll,
-  CratorRigistered,
-  PaperMinted,
-  SocialTokenBought,
-  SocialTokenLaunched,
-  SocialTokenMinted,
-  TransferBatch,
-  TransferSingle,
-  URI,
-  rewardClaimed,
-  subscribed
-} from "../generated/schema"
-
-export function handleApprovalForAll(event: ApprovalForAllEvent): void {
-  let entity = new ApprovalForAll(
-    event.transaction.hash.concatI32(event.logIndex.toI32())
-  )
-  entity.account = event.params.account
-  entity.operator = event.params.operator
-  entity.approved = event.params.approved
-
-  entity.blockNumber = event.block.number
-  entity.blockTimestamp = event.block.timestamp
-  entity.transactionHash = event.transaction.hash
-
-  entity.save()
-}
+  Creator,
+  ResearchPaper,
+  SocialToken,
+  Supporter,
+  Subscriber,
+} from "../generated/schema";
 
 export function handleCratorRigistered(event: CratorRigisteredEvent): void {
-  let entity = new CratorRigistered(
-    event.transaction.hash.concatI32(event.logIndex.toI32())
-  )
-  entity.Contract_id = event.params.id
-  entity.creator = event.params.creator
-  entity.URI = event.params.URI
-
-  entity.blockNumber = event.block.number
-  entity.blockTimestamp = event.block.timestamp
-  entity.transactionHash = event.transaction.hash
-
-  entity.save()
+  let creator = new Creator(event.params.creator.toHexString());
+  creator.tokenID = event.params.id;
+  creator.URI = event.params.URI;
+  creator.creator = event.params.creator;
+  creator.noOfPaper = BigInt.fromI32(0);
+  creator.avgSuccessinOnTimePublishing = BigInt.fromI32(0);
+  creator.avgNoOfSubscribers = BigInt.fromI32(0);
+  creator.blockNumber = event.block.number;
+  creator.blockTimestamp = event.block.timestamp;
+  creator.transactionHash = event.transaction.hash;
+  creator.save();
 }
 
-export function handlePaperMinted(event: PaperMintedEvent): void {
-  let entity = new PaperMinted(
-    event.transaction.hash.concatI32(event.logIndex.toI32())
-  )
-  entity.Contract_id = event.params.id
-  entity.owner = event.params.owner
-  entity.URI = event.params.URI
-  entity.tokenId = event.params.tokenId
-  entity.subscriptionFee = event.params.subscriptionFee
-  entity.avgSuccessOnPublishing = event.params.avgSuccessOnPublishing
-
-  entity.blockNumber = event.block.number
-  entity.blockTimestamp = event.block.timestamp
-  entity.transactionHash = event.transaction.hash
-
-  entity.save()
-}
-
-export function handleSocialTokenBought(event: SocialTokenBoughtEvent): void {
-  let entity = new SocialTokenBought(
-    event.transaction.hash.concatI32(event.logIndex.toI32())
-  )
-  entity.Contract_id = event.params.id
-  entity.researcher = event.params.researcher
-  entity.supporter = event.params.supporter
-  entity.amount = event.params.amount
-
-  entity.blockNumber = event.block.number
-  entity.blockTimestamp = event.block.timestamp
-  entity.transactionHash = event.transaction.hash
-
-  entity.save()
+export function handleSocialTokenMinted(event: SocialTokenMintedEvent): void {
+  let socialToken = new SocialToken(event.params.id.toString());
+  socialToken.tokenID = event.params.id;
+  socialToken.URI = event.params.URI;
+  socialToken.creator = event.params.owner;
+  socialToken.price = BigInt.fromI32(0);
+  socialToken.isLaunched = false;
+  socialToken.totalAmountMinted = event.params.amount;
+  socialToken.availbleAmount = BigInt.fromI32(0);
+  socialToken.thresholdAmount = BigInt.fromI32(0);
+  socialToken.ownershipOnEntireTokenBatch = BigInt.fromI32(0);
+  socialToken.blockNumber = event.block.number;
+  socialToken.blockTimestamp = event.block.timestamp;
+  socialToken.transactionHash = event.transaction.hash;
+  socialToken.save();
 }
 
 export function handleSocialTokenLaunched(
   event: SocialTokenLaunchedEvent
 ): void {
-  let entity = new SocialTokenLaunched(
-    event.transaction.hash.concatI32(event.logIndex.toI32())
-  )
-  entity.Contract_id = event.params.id
-  entity.owner = event.params.owner
-  entity.price = event.params.price
-  entity.threshold = event.params.threshold
-  entity.ownershipOnEntireTokenBatch = event.params.ownershipOnEntireTokenBatch
-
-  entity.blockNumber = event.block.number
-  entity.blockTimestamp = event.block.timestamp
-  entity.transactionHash = event.transaction.hash
-
-  entity.save()
+  let socialToken = SocialToken.load(event.params.id.toString());
+  if (socialToken != null) {
+    socialToken.isLaunched = true;
+    socialToken.price = event.params.price;
+    socialToken.thresholdAmount = event.params.threshold;
+    socialToken.ownershipOnEntireTokenBatch =
+      event.params.ownershipOnEntireTokenBatch;
+    socialToken.save();
+  }
 }
 
-export function handleSocialTokenMinted(event: SocialTokenMintedEvent): void {
-  let entity = new SocialTokenMinted(
-    event.transaction.hash.concatI32(event.logIndex.toI32())
-  )
-  entity.Contract_id = event.params.id
-  entity.owner = event.params.owner
-  entity.amount = event.params.amount
-  entity.URI = event.params.URI
-
-  entity.blockNumber = event.block.number
-  entity.blockTimestamp = event.block.timestamp
-  entity.transactionHash = event.transaction.hash
-
-  entity.save()
+export function handleSocialTokenBought(event: SocialTokenBoughtEvent): void {
+  let supporter = new Supporter(event.params.id.toString());
+  supporter.supporter = event.params.supporter;
+  supporter.socialTokenId = event.params.id;
+  supporter.amount = event.params.amount;
+  supporter.paperID = BigInt.fromI32(0);
+  supporter.blockNumber = event.block.number;
+  supporter.blockTimestamp = event.block.timestamp;
+  supporter.transactionHash = event.transaction.hash;
+  supporter.save();
 }
 
-export function handleTransferBatch(event: TransferBatchEvent): void {
-  let entity = new TransferBatch(
-    event.transaction.hash.concatI32(event.logIndex.toI32())
-  )
-  entity.operator = event.params.operator
-  entity.from = event.params.from
-  entity.to = event.params.to
-  entity.ids = event.params.ids
-  entity.values = event.params.values
+export function handlePaperMinted(event: PaperMintedEvent): void {
+  let paper = new ResearchPaper(event.params.id.toString());
+  paper.paperID = event.params.id;
+  paper.URI = event.params.URI;
+  paper.researcher = event.params.owner;
+  paper.socialTokenId = event.params.tokenId;
+  paper.subscriptionPrice = event.params.subscriptionFee;
+  paper.totalTressury = BigInt.fromI32(0);
+  paper.unClaimedTressury = BigInt.fromI32(0);
+  paper.noOfSubscribers = BigInt.fromI32(0);
+  paper.save();
 
-  entity.blockNumber = event.block.number
-  entity.blockTimestamp = event.block.timestamp
-  entity.transactionHash = event.transaction.hash
-
-  entity.save()
+  let socialToken = SocialToken.load(event.params.tokenId.toString());
+  if (socialToken != null) {
+    socialToken.paperID = event.params.id;
+    let supporter = Supporter.load(
+      event.params.owner.toString() + event.params.tokenId.toString()
+    );
+    if (supporter != null) {
+      supporter.paperID = event.params.id;
+    }
+    socialToken.save();
+  }
 }
 
-export function handleTransferSingle(event: TransferSingleEvent): void {
-  let entity = new TransferSingle(
-    event.transaction.hash.concatI32(event.logIndex.toI32())
-  )
-  entity.operator = event.params.operator
-  entity.from = event.params.from
-  entity.to = event.params.to
-  entity.Contract_id = event.params.id
-  entity.value = event.params.value
-
-  entity.blockNumber = event.block.number
-  entity.blockTimestamp = event.block.timestamp
-  entity.transactionHash = event.transaction.hash
-
-  entity.save()
-}
-
-export function handleURI(event: URIEvent): void {
-  let entity = new URI(event.transaction.hash.concatI32(event.logIndex.toI32()))
-  entity.value = event.params.value
-  entity.Contract_id = event.params.id
-
-  entity.blockNumber = event.block.number
-  entity.blockTimestamp = event.block.timestamp
-  entity.transactionHash = event.transaction.hash
-
-  entity.save()
-}
-
-export function handlerewardClaimed(event: rewardClaimedEvent): void {
-  let entity = new rewardClaimed(
-    event.transaction.hash.concatI32(event.logIndex.toI32())
-  )
-  entity.supporter = event.params.supporter
-  entity.paperId = event.params.paperId
-  entity.amount = event.params.amount
-
-  entity.blockNumber = event.block.number
-  entity.blockTimestamp = event.block.timestamp
-  entity.transactionHash = event.transaction.hash
-
-  entity.save()
-}
+export function handlerewardClaimed(event: rewardClaimedEvent): void {}
 
 export function handlesubscribed(event: subscribedEvent): void {
-  let entity = new subscribed(
-    event.transaction.hash.concatI32(event.logIndex.toI32())
-  )
-  entity.subscriber = event.params.subscriber
-  entity.paperId = event.params.paperId
-
-  entity.blockNumber = event.block.number
-  entity.blockTimestamp = event.block.timestamp
-  entity.transactionHash = event.transaction.hash
-
-  entity.save()
+  let subscriber = Subscriber.load(event.params.subscriber.toString());
+  if (subscriber == null) {
+    subscriber = new Subscriber(event.params.subscriber.toString());
+    subscriber.paperIDs = new Array<BigInt>();
+    subscriber.subscriber = event.params.subscriber;
+  }
+  subscriber.paperIDs.push(event.params.paperId);
+  subscriber.save();
 }

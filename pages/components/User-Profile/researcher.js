@@ -5,8 +5,35 @@ import TokenTableRow from "../Researcher-Page/Token-Table-Row";
 import TokenHoldingRow from "./Token-Hoding-Row";
 import NextLink from "next/link";
 import { Link } from "@chakra-ui/react";
+import { useAccount, useConnect } from "wagmi";
+import { getGraphData } from "../../Utils/getGraphData";
 
-const ResearcherProfileV2 = () => {
+const ResearcherProfileV2 = (props) => {
+  const { address } = useAccount();
+
+  useEffect(() => {
+    async function getCreator() {
+      const query = `{
+        researchPapers(where: {researcher: ""}) {
+          URI
+        }
+        socialTokens(where: {creator: ""}) {
+          URI
+          ownershipOnEntireTokenBatch
+          totalAmountMinted
+        }
+        supporters(where: {supporter: ""}) {
+          paperID
+        }
+      }`;
+      try {
+        const response = getGraphData(query);
+        console.log(response);
+      } catch (e) {
+        console.error(e);
+      }
+    }
+  }, []);
   return (
     <div className={styles.researcherProfileV2}>
       <header className={styles.btnSection}>
@@ -35,7 +62,7 @@ const ResearcherProfileV2 = () => {
           RR-Token Balance: 12345885
         </b>
         <div className={styles.profileIntroChild} />
-        <div className={styles.x9392540366}>0x9392540366</div>
+        <div className={styles.x9392540366}>{props.data.address}</div>
       </section>
       <div className={styles.publishedPapersSection}>
         <h1 className={styles.publishedPapers}>Published-Papers</h1>
