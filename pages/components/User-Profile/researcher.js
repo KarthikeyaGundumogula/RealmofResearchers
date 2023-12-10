@@ -4,8 +4,7 @@ import TokenTableRow from "../Researcher-Page/Token-Table-Row";
 import TokenHoldingRow from "./Token-Hoding-Row";
 import { useAccount } from "wagmi";
 import { getGraphData } from "../../Utils/getGraphData";
-import { useEffect, useState } from "react";
-import { Button, HStack } from "@chakra-ui/react";
+import React, { useEffect, useState } from "react";
 import { RandomAvatar } from "react-random-avatars";
 import TokenMintModal from "./mint-modals/token-mint-modal";
 import PaperMintModal from "./mint-modals/paper-mint-modal";
@@ -13,9 +12,30 @@ import axios from "axios";
 import { getURI } from "../../Constants/getURI";
 import { getContract } from "../../Utils/getContracts";
 import { NFTs_ABI, NFTs_Address } from "../../Constants/contracts";
-import { ethers } from "ethers";
+import ResearchPaperModal from "../modals/research-paper-modal";
+import { getRCICreds } from "../../Utils/getCreds";
+import {
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  Input,
+  useDisclosure,
+  Button,
+  HStack,
+  Spinner,
+  Flex,
+} from "@chakra-ui/react";
 
 const ResearcherProfileV2 = (props) => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const initialRef = React.useRef();
+  const [loading, setLoading] = useState(false);
+  const [did, setDid] = useState("");
+  const [paperIsOpen, setPaperIsOpen] = useState(false);
   const [researchPapers, setResearchPapers] = useState([]);
   const [socialTokens, setSocialTokens] = useState([]);
   const [supporters, setSupporters] = useState([]);
@@ -30,12 +50,14 @@ const ResearcherProfileV2 = (props) => {
       const query = `{
         researchPapers(where: {researcher:"${props.data.address}"}) {
         id
+        URI
         }
         socialTokens(where: {creator:"${props.data.address}"}) {
           URI
         }
         supporters(where: {supporter:"${props.data.address}"}) {
-          paperID
+          socialTokenId
+          amount
         }
       }`;
       try {
@@ -75,6 +97,15 @@ const ResearcherProfileV2 = (props) => {
     const balance = await contract.balanceOf(props.data.address, 0);
     setRetoksBalance(balance.toString());
   };
+  const paperModel = () => {
+    setPaperIsOpen((old) => !old);
+  };
+  const getVC = async () => {
+    setLoading(true);
+    await getRCICreds(props.data.address, did);
+    setLoading(false);
+    onClose();
+  };
   return (
     <div className={styles.researcherProfileV2}>
       <HStack spacing={"150px"} paddingLeft={"13%"}>
@@ -98,7 +129,7 @@ const ResearcherProfileV2 = (props) => {
         >
           Mint SocialToken
         </Button>
-        <Button variant="solid" w="138px" colorScheme="teal">
+        <Button variant="solid" w="138px" colorScheme="teal" onClick={onOpen}>
           Get RCI VC
         </Button>
         <Button
@@ -126,11 +157,18 @@ const ResearcherProfileV2 = (props) => {
       </section>
       <div className={styles.publishedPapersSection}>
         <h1 className={styles.publishedPapers}>Published-Papers</h1>
-        <div className={styles.papersStack}>
+        <HStack spacing={10} className={styles.papersStack}>
           {researchPapers.map((paper) => {
-            return <ResearchPaperCard />;
+            return (
+              <div onClick={paperModel}>
+                {paperIsOpen && (
+                  <ResearchPaperModal uri={paper.URI} onClose={paperModel} />
+                )}
+                <ResearchPaperCard uri={paper.URI} />
+              </div>
+            );
           })}
-        </div>
+        </HStack>
       </div>
       <section className={styles.tokensSection}>
         <h1 className={styles.launchedTokens}>Launched-Tokens</h1>
@@ -170,14 +208,43 @@ const ResearcherProfileV2 = (props) => {
               </span>
             </div>
             <div className={styles.lastSoldPrice}>Last sold price</div>
-            <div className={styles.gain}>Gain</div>
+            <div className={styles.gain}>Rewards</div>
           </div>
           <div className={styles.tokenTableChild} />
           {supporters.map((token) => {
-            return <TokenHoldingRow />;
+            return <TokenHoldingRow data={token} />;
           })}
         </div>
       </section>
+      <Modal initialFocusRef={initialRef} isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Get Researcher Credibility Index VC</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <Input
+              onChange={(e) => setDid(e.target.value)}
+              placeholder="Enter DID to receive VC"
+            />
+          </ModalBody>
+          <ModalFooter>
+            <Button colorScheme="blue" mr={3} onClick={onClose}>
+              Close
+            </Button>
+            <Flex alignItems={"center"}>
+              <Button
+                colorScheme="facebook"
+                onClick={() => {
+                  getVC();
+                }}
+              >
+                Submit
+              </Button>
+              {loading && <Spinner ml={4} />}
+            </Flex>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </div>
   );
 };

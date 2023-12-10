@@ -1,9 +1,6 @@
 import styles from "../styles/researchers.module.css";
 import ResearcherCard from "../components/Researcher-Card";
 import Header from "../components/Header";
-import NextLink from "next/link";
-import { Link } from "@chakra-ui/react";
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { getGraphData } from "../Utils/getGraphData";
 

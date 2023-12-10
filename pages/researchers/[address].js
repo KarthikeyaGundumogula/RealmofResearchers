@@ -54,6 +54,7 @@ const ResearcherProfile = () => {
         const query = `{
         researchPapers(where: {researcher:"${address}"}) {
         URI
+        socialTokenId
         }
         socialTokens(where: {creator:"${address}"}) {
           URI
@@ -139,7 +140,9 @@ const ResearcherProfile = () => {
             alt=""
             src="/researcher-profile/repustation.png"
           />
-          <div className={styles.div1}>{researcher.reputationIndex}</div>
+          <div className={styles.div1}>
+            {researcher.reputationIndex.toFixed(4)}
+          </div>
         </div>
         <div className={styles.fieldOfStudyParent}>
           <div className={styles.publications}>Field of Study</div>
@@ -172,6 +175,7 @@ const ResearcherProfile = () => {
                   {paperIsOpen && (
                     <ResearchPaperModal
                       uri={paper.URI}
+                      tokenId={paper.socialTokenId}
                       onClose={paperModalOpen}
                     />
                   )}

@@ -54,7 +54,7 @@ function ResearcherCard(props) {
         <h2 className={styles.tonyStark}>{researcher.name}</h2>
         <p className={styles.imAPlayBoy}>{researcher.description}</p>
         <div className={styles.reputationIndex}>
-          <h2 className={styles.h2}>{researcher.reputationIndex}</h2>
+          <h2 className={styles.h2}>{researcher.reputationIndex.toFixed(2)}</h2>
           <img
             className={styles.prizeIcon}
             alt=""

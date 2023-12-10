@@ -42,9 +42,11 @@
 .seller,
 .sellingPrice {
   position: absolute;
-  top: 12px;
-  left: 717px;
+  top: 0px;
+  left: 685px;
   font-weight: 600;
+  width: 100px;
+  height: auto;
 }
 .payPerPaper,
 .sellingPrice {
@@ -132,7 +134,7 @@
   font-weight: 700;
 }
 .b2 {
-  left: 631px;
+  left: 655px;
 }
 .b2,
 .b3,
@@ -143,7 +145,7 @@
 }
 .x93429454 {
   position: absolute;
-  left: 756px;
+  left: 796px;
 }
 .b3 {
   left: 912px;
@@ -155,7 +157,7 @@
 }
 .b4 {
   top: 16px;
-  left: 1015px;
+  left: 965px;
   display: flex;
   font-weight: 700;
 }

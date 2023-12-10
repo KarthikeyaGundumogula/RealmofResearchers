@@ -11,12 +11,16 @@ import {
   Text,
   Flex,
   Box,
+  Spinner,
   Heading,
 } from "@chakra-ui/react";
 import axios from "axios";
 import { getURI } from "../../Constants/getURI";
+import { NFTs_ABI, NFTs_Address } from "../../Constants/contracts";
+import { getContract } from "../../Utils/getContracts";
 
 const ResearchPaperModal = (props) => {
+  const [isLaoding, setIsLoading] = useState(false);
   console.log(props.uri);
   const [paper, setPaper] = useState({
     name: "",
@@ -43,6 +47,14 @@ const ResearchPaperModal = (props) => {
     };
     getData();
   }, []);
+  const download = async () => {
+    setIsLoading(true);
+    const contract = await getContract(NFTs_ABI, NFTs_Address);
+    const tx = await contract.Subscribe(props.id);
+    await tx.wait();
+    window.open(paper.downloadUrl);
+    setIsLoading(false);
+  };
   return (
     <div>
       <Modal isOpen={true} onClose={props.onClose} isCentered>
@@ -88,6 +100,12 @@ const ResearchPaperModal = (props) => {
               </Heading>
               <Text fontSize="lg">{paper.subscription}</Text>
             </Box>
+            <Box mb={4}>
+              <Heading size="md" color="black">
+                SocailTokenId:
+              </Heading>
+              <Text fontSize="lg">{props.tokenId}</Text>
+            </Box>
           </ModalBody>
           <ModalFooter>
             <Flex justifyContent="center" width="100%">
@@ -96,10 +114,13 @@ const ResearchPaperModal = (props) => {
               </Button>
               <Button
                 colorScheme="facebook"
-                onClick={() => window.open(paper.downloadUrl, "_blank")}
+                onClick={() => {
+                  download();
+                }}
               >
-                Download
+                Subscribe&Download
               </Button>
+              {isLaoding && <Spinner ml={4} />}
             </Flex>
           </ModalFooter>
         </ModalContent>
