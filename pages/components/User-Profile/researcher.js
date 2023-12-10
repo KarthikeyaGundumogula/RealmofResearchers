@@ -9,13 +9,21 @@ import { Button, HStack } from "@chakra-ui/react";
 import { RandomAvatar } from "react-random-avatars";
 import TokenMintModal from "./mint-modals/token-mint-modal";
 import PaperMintModal from "./mint-modals/paper-mint-modal";
+import axios from "axios";
+import { getURI } from "../../Constants/getURI";
+import { getContract } from "../../Utils/getContracts";
+import { NFTs_ABI, NFTs_Address } from "../../Constants/contracts";
+import { ethers } from "ethers";
+
 const ResearcherProfileV2 = (props) => {
   const [researchPapers, setResearchPapers] = useState([]);
   const [socialTokens, setSocialTokens] = useState([]);
   const [supporters, setSupporters] = useState([]);
-  const { address } = useAccount();
+  const [name, setName] = useState("Kap");
+  const [retoksBalance, setRetoksBalance] = useState(0);
   const [tokenMintModalOpen, setTokenMintModalOpen] = useState(false);
   const [paperMinModalOpen, setPaperMinModalOpen] = useState(false);
+  const { address } = useAccount();
 
   useEffect(() => {
     async function getData() {
@@ -24,7 +32,7 @@ const ResearcherProfileV2 = (props) => {
         id
         }
         socialTokens(where: {creator:"${props.data.address}"}) {
-          id
+          URI
         }
         supporters(where: {supporter:"${props.data.address}"}) {
           paperID
@@ -32,25 +40,40 @@ const ResearcherProfileV2 = (props) => {
       }`;
       try {
         const response = await getGraphData(query);
-        console.log(response);
         setResearchPapers(response.data.data.researchPapers);
         setSocialTokens(response.data.data.socialTokens);
         setSupporters(response.data.data.supporters);
       } catch (e) {
         console.error(e);
       }
+      const url = getURI(props.data.uri);
+      const creatorData = await axios.get(url);
+      setName(creatorData.data.name);
+      const contract = await getContract(NFTs_ABI, NFTs_Address);
+      const balance = await contract.balanceOf(props.data.address, 0);
+      setRetoksBalance(balance.toString());
     }
     getData();
-  }, []);
+  }, [props.data.address]);
   const handleMintToken = () => {
     setTokenMintModalOpen(true);
   };
-  const modalClosed = () => {
+  const TokenModalClosed = () => {
     setTokenMintModalOpen(false);
+  };
+  const PaperModalClosed = () => {
     setPaperMinModalOpen(false);
   };
   const handlePaperMint = () => {
     setPaperMinModalOpen(true);
+  };
+
+  const getRetoks = async () => {
+    const contract = await getContract(NFTs_ABI, NFTs_Address);
+    const tx = await contract.getRetoks();
+    await tx.wait();
+    const balance = await contract.balanceOf(props.data.address, 0);
+    setRetoksBalance(balance.toString());
   };
   return (
     <div className={styles.researcherProfileV2}>
@@ -78,16 +101,23 @@ const ResearcherProfileV2 = (props) => {
         <Button variant="solid" w="138px" colorScheme="teal">
           Get RCI VC
         </Button>
-        <Button variant="solid" w="138px" colorScheme="teal">
+        <Button
+          variant="solid"
+          w="138px"
+          colorScheme="teal"
+          onClick={() => {
+            getRetoks();
+          }}
+        >
           Get Retoks
         </Button>
       </HStack>
-      {tokenMintModalOpen && <TokenMintModal onClose={modalClosed} />}
-      {paperMinModalOpen && <PaperMintModal onClose={modalClosed} />}
+      {tokenMintModalOpen && <TokenMintModal onClose={TokenModalClosed} />}
+      {paperMinModalOpen && <PaperMintModal onClose={PaperModalClosed} />}
       <section className={styles.profileIntro}>
-        <h1 className={styles.tonyStark}>Tony Stark</h1>
+        <h1 className={styles.tonyStark}>{name}</h1>
         <b className={styles.rrTokenBalance12345885}>
-          ReToks Balance: 12345885
+          ReToks Balance: {retoksBalance}
         </b>
         <div className={styles.profileIntroChild}>
           <RandomAvatar name={props.data.address} size={157} />{" "}
@@ -116,11 +146,11 @@ const ResearcherProfileV2 = (props) => {
               </span>
             </div>
             <div className={styles.launchingAmount}>Launching amount</div>
-            <div className={styles.subscriptionFee}>Subscription Fee</div>
+            <div className={styles.subscriptionFee}>Threshold Amount</div>
           </div>
           <div className={styles.tokenTableChild} />
           {socialTokens.map((token) => {
-            return <TokenTableRow />;
+            return <TokenTableRow uri={token.URI} />;
           })}
         </div>
       </section>

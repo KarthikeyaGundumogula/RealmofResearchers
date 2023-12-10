@@ -1,11 +1,31 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styles from "../styles/index.module.css";
 import NextLink from "next/link";
 import { Link } from "@chakra-ui/react";
 import { Button } from "@chakra-ui/react";
-import { useState } from "react";
+import { useAccount } from "wagmi";
+import { ethers } from "ethers";
 
 const Header = (pageName) => {
+  const { address } = useAccount();
+  const [isConnected, setIsConnected] = useState(false);
+  const [account, setAccount] = useState("");
+  useEffect(() => {
+    const connectMetamask = async () => {
+      try {
+        const provider = new ethers.BrowserProvider(window.ethereum);
+        const signer = await provider.getSigner();
+        const address = signer.address;
+        setAccount(address);
+        setIsConnected(true);
+      } catch (error) {}
+    };
+    if (address) {
+      setIsConnected(true);
+    } else {
+      connectMetamask();
+    }
+  }, [address]);
   const [page, setPage] = useState(pageName.pageName);
   return (
     <div>
@@ -15,15 +35,14 @@ const Header = (pageName) => {
           <span className={styles.of}>{`of `}</span>
           <span>RESEARCHERS</span>
         </h1>
-        <Link as={NextLink} href="/profile/tony">
+        <Link as={NextLink} href={`/profile/${address}`}>
           <Button
             className={styles.registerButton}
             variant="solid"
             w="161px"
             colorScheme="green"
           >
-            {" "}
-            Profile
+            {isConnected ? "Profile" : "Connect"}
           </Button>
         </Link>
         <nav className={styles.navBar}>

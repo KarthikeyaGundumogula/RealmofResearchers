@@ -1,27 +1,39 @@
 import styles from "./styles/profile/register.module.css";
-import { Button, IconButton, Input } from "@chakra-ui/react";
+import { Button, IconButton, Flex, Spinner, Input } from "@chakra-ui/react";
 import { useState } from "react";
 import { RandomAvatar } from "react-random-avatars";
+import { useAccount } from "wagmi";
+import { NFTs_ABI, NFTs_Address } from "./Constants/contracts";
+import { getContract } from "./Utils/getContracts";
+import { saveMetaData } from "./Utils/saveMetaDataToIPFS";
 
 const CreateProfile = () => {
+  const { address } = useAccount();
   const [name, setName] = useState("");
   const [did, setDid] = useState("");
   const [description, setDescription] = useState("");
   const [university, setUniversity] = useState("");
   const [fieldOfStudy, setFieldOfStudy] = useState("");
   const [employmentId, setEmploymentId] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
+    setLoading(true);
     e.preventDefault();
     const data = {
-      name,
-      did,
-      description,
-      university,
-      fieldOfStudy,
-      employmentId,
+      name: name,
+      did: did,
+      description: description,
+      university: university,
+      fieldOfStudy: fieldOfStudy,
+      employmentId: employmentId,
     };
+    const metaData = await saveMetaData(data);
+    const contract = await getContract(NFTs_ABI, NFTs_Address);
+    const tx = await contract.registerCreator(metaData);
+    await tx.wait();
     console.log(data);
+    setLoading(false);
   };
   return (
     <div className={styles.createProfile}>
@@ -34,26 +46,13 @@ const CreateProfile = () => {
         >
           Home
         </Button>
-        <Button
-          className={styles.connectBtn}
-          variant="solid"
-          w="138px"
-          colorScheme="teal"
-        >
-          .Connect
-        </Button>
       </header>
       <fieldset className={styles.formModal} id="form-modal">
         <div className={styles.formModalChild} />
       </fieldset>
       <form className={styles.createProfileForm}>
         <div className={styles.profilePhoto}>
-          <RandomAvatar
-            name="Tony Stark"
-            size={157}
-            variant="beam"
-            colors={["#00FF00", "#FF0000"]}
-          />
+          <RandomAvatar name={address} size={157} />
         </div>
         <Input
           className={styles.name}
@@ -91,17 +90,32 @@ const CreateProfile = () => {
           placeholder="Employment ID"
           onChange={(e) => setEmploymentId(e.target.value)}
         />
-        <Button
-          className={styles.submit}
-          variant="solid"
-          w="117px"
-          colorScheme="teal"
-          type="submit"
-          onClick={handleSubmit}
-        >
-          Submit
-        </Button>
+
+        {!loading && (
+          <Button
+            className={styles.submit}
+            variant="solid"
+            w="117px"
+            colorScheme="teal"
+            type="submit"
+            onClick={(e) => {
+              handleSubmit(e);
+            }}
+          >
+            Submit
+          </Button>
+        )}
       </form>
+      {loading && (
+        <Spinner
+          className={styles.spinner}
+          thickness="4px"
+          speed="0.65s"
+          emptyColor="gray.200"
+          size="xl"
+          color="blue"
+        />
+      )}
     </div>
   );
 };

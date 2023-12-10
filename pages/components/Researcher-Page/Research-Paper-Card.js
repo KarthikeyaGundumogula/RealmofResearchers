@@ -1,7 +1,21 @@
-import React from "react";
 import styles from "../../styles/researcher-profile.module.css";
-
-function ResearchPaperCard() {
+import axios from "axios";
+import { getURI } from "../../Constants/getURI";
+import { useState, useEffect } from "react";
+function ResearchPaperCard(props) {
+  const [name, setName] = useState("");
+  const uri = props.uri;
+  useEffect(() => {
+    async function getData() {
+      try {
+        const data = await axios.get(getURI(uri));
+        setName(data.data.name);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    getData();
+  }, []);
   return (
     <div className={styles.paperDiv}>
       <img
@@ -15,9 +29,7 @@ function ResearchPaperCard() {
           alt="ss"
           src="/researcher-profile/background-img.svg"
         />
-        <div className={styles.theArcReactorA}>
-          The ARC-Reactor: A miniature nuclear fusion reactor.
-        </div>
+        <div className={styles.theArcReactorA}>{name}</div>
       </div>
     </div>
   );

@@ -1,21 +1,41 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styles from "../../styles/researcher-profile.module.css";
+import axios from "axios";
+import { getURI } from "../../Constants/getURI";
+const TokenTableRow = (props) => {
+  console.log(props.uri);
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [launchDate, setLaunchDate] = useState("");
+  const [price, setPrice] = useState("");
+  const [amount, setAmount] = useState("");
+  const [thresholdAmount, setThresholdAmount] = useState("");
+  const [ownership, setOwnership] = useState("");
 
-const TokenTableRow = () => {
+  useEffect(() => {
+    const url = getURI(props.uri);
+    async function setData() {
+      const response = await axios.get(url);
+      console.log(response.data);
+      setName(response.data.name);
+      setDescription(response.data.description);
+      setLaunchDate(response.data.launchDate);
+      setPrice(response.data.price);
+      setAmount(response.data.amount);
+      setThresholdAmount(response.data.thresholdAmount);
+      setOwnership(response.data.ownership);
+    }
+    setData();
+  }, [props]);
   return (
     <div className={styles.tokenTableRow}>
-      <div className={styles.theArcReactorA2}>
-        The ARC-Reactor: A miniature nuclear fusion reactor.
-      </div>
-      <div className={styles.theArcReactorA3}>
-        The ARC-Reactor: A miniature nuclear fusion reactor.this is a short
-        description of this study
-      </div>
-      <b className={styles.b}>26-08-2023</b>
-      <b className={styles.b1}>100</b>
-      <b className={styles.b2}>123456</b>
-      <b className={styles.b3}>1223</b>
-      <b className={styles.b4}>60</b>
+      <div className={styles.theArcReactorA2}>{name}</div>
+      <div className={styles.theArcReactorA3}>{description}</div>
+      <b className={styles.b}>{launchDate}</b>
+      <b className={styles.b1}>{price}</b>
+      <b className={styles.b2}>{amount}</b>
+      <b className={styles.b3}>{thresholdAmount}</b>
+      <b className={styles.b4}>{ownership}</b>
     </div>
   );
 };

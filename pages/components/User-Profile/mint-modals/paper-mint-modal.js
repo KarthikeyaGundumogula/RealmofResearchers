@@ -76,7 +76,7 @@ function TokenMintModal({ onClose }) {
     <Modal isOpen={true} onClose={onClose}>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>Create Token</ModalHeader>
+        <ModalHeader>Publish Paper</ModalHeader>
         <ModalCloseButton />
         <form>
           <ModalBody>

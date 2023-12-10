@@ -46,10 +46,6 @@
   position: absolute;
   top: 0;
   left: calc(50% - 75px);
-  border-radius: 50%;
-  width: 151px;
-  height: 162.2px;
-  object-fit: cover;
 }
 .imAPlayBoy,
 .x9392540366 {
@@ -59,7 +55,7 @@
 .imAPlayBoy {
   margin: 0;
   top: 268.9px;
-  left: calc(50% - 266px);
+  left: calc(50% - 286px);
   font-size: 16px;
   font-weight: 300;
   text-align: center;
@@ -68,10 +64,9 @@
 }
 .x9392540366 {
   top: 235.4px;
-  left: 205px;
+  left: 80px;
   font-size: var(--font-size-base);
   font-weight: 200;
-  width: auto;
   height: 20.4px;
 }
 .profileIntro {
@@ -90,6 +85,8 @@
   top: 0;
   left: 0;
   font-weight: 600;
+  width: auto;
+  align-items: center;
 }
 .stackOfPaper {
   position: absolute;
@@ -131,6 +128,7 @@
   left: 172px;
   width: 117px;
   height: 99.5px;
+  align-items: center;
 }
 .searchBarIcon {
   top: 28px;

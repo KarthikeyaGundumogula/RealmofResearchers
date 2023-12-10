@@ -13,6 +13,8 @@ function Profile() {
   const [isSupporter, setIsSupporter] = useState(false);
   const [creator, setCreator] = useState("");
   const [supporter, setSupporter] = useState("");
+  const [CURI, setCURI] = useState("");
+  const [SURI, setSURI] = useState("");
   const { address, connector, isConnected } = useAccount();
   useEffect(() => {
     async function getCreator() {
@@ -20,7 +22,8 @@ function Profile() {
         if (isConnected) {
           const query = `{
          creators(where: {creator:"${address}"}) {
-          creator
+          creator,
+          URI
         }
         supporters(where: {supporter:"${address}"}) {
           supporter
@@ -30,10 +33,12 @@ function Profile() {
           console.log(creator);
           if (creator.data.data.creators.length > 0) {
             setCreator(creator.data.data.creators[0].creator);
+            setCURI(creator.data.data.creators[0].URI);
             setIsCreator(true);
           }
           if (creator.data.data.supporters.length > 0) {
             setSupporter(creator.data.data.supporters[0].supporter);
+            setSURI(creator.data.data.supporters[0].URI);
             setIsSupporter(true);
           }
         }
@@ -70,7 +75,9 @@ function Profile() {
           {isConnected ? "Connected" : "Connect"}
         </Button>
       </header>
-      {isCreator && isConnected && <Researcher data={{ address: creator }} />}
+      {isCreator && isConnected && (
+        <Researcher data={{ address: creator, uri: CURI }} />
+      )}
       {isSupporter && isConnected && (
         <NonResearcherProfile data={{ address: supporter }} />
       )}

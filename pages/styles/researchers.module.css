@@ -9,12 +9,8 @@
 }
 .researcherCardItem {
   position: absolute;
-  top: 28px;
+  top: 38px;
   left: 24px;
-  border-radius: var(--br-xs);
-  width: 88px;
-  height: 109px;
-  object-fit: cover;
 }
 .tonyStark {
   margin: 0;
